@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+
+# Add your sitemap once the domain is live, e.g.
+# Sitemap: https://www.yourdomain.co.uk/sitemap.xml

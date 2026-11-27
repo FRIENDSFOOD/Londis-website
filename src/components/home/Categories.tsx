@@ -54,7 +54,7 @@ export default function Categories() {
             </span>
           ))}
         </div>
-        <p className="mt-5 flex items-center justify-center gap-2 text-center text-xs text-ink/55">
+        <p className="mt-5 flex items-center justify-center gap-2 text-center text-xs text-ink/70">
           <Info className="h-3.5 w-3.5 shrink-0" /> Photos taken in our store. Products and prices may vary.
         </p>
       </div>

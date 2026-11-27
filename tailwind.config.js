@@ -6,7 +6,7 @@ export default {
     extend: {
       colors: {
         // Londis green — used ONLY for the "Londis" wordmark
-        londis: "#3BAA3F",
+        londis: "#37A23B",
         // Neutral site palette (charcoal & greys)
         brand: {
           DEFAULT: "#1F2328",

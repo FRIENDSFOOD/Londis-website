@@ -8,6 +8,7 @@ export default function SocialIcons({ className = "" }: { className?: string }) 
     { href: site.social.tiktok, label: "TikTok", Icon: Music2 },
   ].filter((i) => i.href);
 
+  if (!items.length) return null;
   return (
     <div className={`flex gap-3 ${className}`}>
       {items.map(({ href, label, Icon }) => (

@@ -40,6 +40,7 @@ export const site = {
   storeName: "Londis Supermarket",
   companyName: "FRIENDS FOOD RETAIL LIMITED",
   tradingAs: "Londis",
+  slogan: "Big on choice. Close to home.",
   /** Year the shop opened — the footer shows © 2018–<current year>. */
   established: 2018,
 
@@ -56,8 +57,8 @@ export const site = {
   phoneHref: "tel:+441163194464",
   whatsapp: "07399 799977",
   whatsappHref: "https://wa.me/447399799977",
-  // TODO: replace with the real shop email
-  email: "info@yourdomain.co.uk",
+  // TODO: add the shop email (leave "" to hide it everywhere)
+  email: "",
 
   /**
    * DEFAULT hours & services. Once Supabase is connected, the live values are
@@ -108,13 +109,13 @@ export const site = {
     },
   ] as Service[],
 
-  // TODO: paste your real links (leave "" to hide an icon)
+  // TODO: paste your real links (icons are hidden while empty)
   social: {
-    facebook: "#",
-    instagram: "#",
+    facebook: "",
+    instagram: "",
     tiktok: "",
   },
-  googleReviewUrl: "#", // TODO: your Google "write a review" link
+  googleReviewUrl: "", // TODO: your Google "write a review" link (hidden while empty)
 
   /**
    * Delivery partners. TODO: paste the link to YOUR store page on each app

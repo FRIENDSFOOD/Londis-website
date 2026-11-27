@@ -17,13 +17,13 @@ export default function OpeningHours({ className = "" }: { className?: string })
             <Clock className="h-6 w-6" />
           </div>
           <div>
-            <h3 className="text-xl">Opening Hours</h3>
-            <p className="text-sm text-ink/60">Open 7 days a week</p>
+            <h2 className="text-xl">Opening Hours</h2>
+            <p className="text-sm text-ink/70">Open 7 days a week</p>
           </div>
         </div>
         <span
           className={`rounded-full px-3 py-1 text-xs font-bold ${
-            open ? "bg-brand-light text-brand" : "bg-gray-100 text-ink/60"
+            open ? "bg-brand-light text-brand" : "bg-gray-100 text-ink/70"
           }`}
         >
           {open ? "● Open now" : "Closed now"}
@@ -58,7 +58,7 @@ export default function OpeningHours({ className = "" }: { className?: string })
             {seasonal.map((s) => (
               <li key={s.name + s.label} className={`flex justify-between gap-3 ${s.isToday ? "font-semibold" : ""}`}>
                 <span>
-                  {s.name} <span className="text-ink/50">· {s.label}</span>
+                  {s.name} <span className="text-ink/70">· {s.label}</span>
                 </span>
                 <span className="shrink-0">{fmtRange(s.open, s.close, s.closed)}</span>
               </li>

@@ -67,7 +67,7 @@ export default function Gallery() {
           ))}
         </div>
 
-        <p className="mt-6 flex items-start justify-center gap-2 text-center text-xs text-ink/60">
+        <p className="mt-6 flex items-start justify-center gap-2 text-center text-xs text-ink/70">
           <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
           Photos are for illustration only. Products, prices and promotions shown may differ from those currently in store.
         </p>

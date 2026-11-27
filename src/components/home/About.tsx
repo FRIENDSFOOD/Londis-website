@@ -35,9 +35,11 @@ export default function About() {
             ))}
           </div>
 
+          {site.googleReviewUrl && (
           <a href={site.googleReviewUrl} target="_blank" rel="noopener noreferrer" className="btn-primary mt-8">
             <Star className="h-4 w-4" /> Leave us a Google review
           </a>
+          )}
         </Reveal>
 
         <Reveal delay={150} className="lg:col-span-2">

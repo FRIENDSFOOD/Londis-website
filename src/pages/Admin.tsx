@@ -58,7 +58,7 @@ export default function Admin() {
 function Spinner() {
   return (
     <div className="grid place-items-center py-24">
-      <Loader2 className="h-8 w-8 animate-spin text-ink/50" />
+      <Loader2 className="h-8 w-8 animate-spin text-ink/70" />
     </div>
   );
 }
@@ -112,7 +112,7 @@ function Section({ title, hint, children, action }: { title: string; hint?: stri
       <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="text-xl">{title}</h2>
-          {hint && <p className="mt-1 text-sm text-ink/60">{hint}</p>}
+          {hint && <p className="mt-1 text-sm text-ink/70">{hint}</p>}
         </div>
         {action}
       </div>
@@ -200,7 +200,7 @@ function Editor({ email }: { email: string }) {
     <div className="space-y-8 pb-28">
       <div>
         <h1 className="text-3xl">Website settings</h1>
-        <p className="mt-1 text-sm text-ink/60">Signed in as {email}. Changes go live as soon as you press Save.</p>
+        <p className="mt-1 text-sm text-ink/70">Signed in as {email}. Changes go live as soon as you press Save.</p>
       </div>
 
       {/* WEEKLY HOURS */}
@@ -238,7 +238,7 @@ function Editor({ email }: { email: string }) {
               {!h.closed && (
                 <div className="col-span-2 flex items-center gap-2 sm:col-span-1">
                   <input type="time" className="input max-w-[9rem]" value={h.open} onChange={(e) => update((d) => ((d.hours[i].open = e.target.value), d))} aria-label={`${h.day} opening time`} />
-                  <span className="text-ink/50">to</span>
+                  <span className="text-ink/70">to</span>
                   <input type="time" className="input max-w-[9rem]" value={h.close} onChange={(e) => update((d) => ((d.hours[i].close = e.target.value), d))} aria-label={`${h.day} closing time`} />
                 </div>
               )}
@@ -260,7 +260,7 @@ function Editor({ email }: { email: string }) {
           </button>
         }
       >
-        {s.seasonalHours.length === 0 && <p className="text-sm text-ink/60">No seasonal hours yet.</p>}
+        {s.seasonalHours.length === 0 && <p className="text-sm text-ink/70">No seasonal hours yet.</p>}
         <div className="space-y-4">
           {s.seasonalHours.map((x, i) => {
             const isRange = x.date === undefined;
@@ -271,7 +271,7 @@ function Editor({ email }: { email: string }) {
                 <div className="flex flex-wrap items-center gap-3">
                   <input className="input flex-1 min-w-[12rem]" placeholder="e.g. Christmas Day" value={x.name} onChange={(e) => setSeasonal(i, { name: e.target.value })} aria-label="Name" />
                   {past && <span className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold">Past</span>}
-                  <button className="grid h-10 w-10 place-items-center rounded-full text-ink/60 hover:bg-red-50 hover:text-red-700" onClick={() => update((d) => (d.seasonalHours.splice(i, 1), d))} aria-label="Delete">
+                  <button className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-red-50 hover:text-red-700" onClick={() => update((d) => (d.seasonalHours.splice(i, 1), d))} aria-label="Delete">
                     <Trash2 className="h-4 w-4" />
                   </button>
                 </div>
@@ -292,7 +292,7 @@ function Editor({ email }: { email: string }) {
                   {isRange ? (
                     <>
                       <input type="date" className="input w-auto" value={x.from ?? ""} onChange={(e) => setSeasonal(i, { from: e.target.value })} aria-label="From" />
-                      <span className="text-ink/50">to</span>
+                      <span className="text-ink/70">to</span>
                       <input type="date" className="input w-auto" value={x.to ?? ""} onChange={(e) => setSeasonal(i, { to: e.target.value })} aria-label="To" />
                     </>
                   ) : (
@@ -307,7 +307,7 @@ function Editor({ email }: { email: string }) {
                   {!x.closed && (
                     <>
                       <input type="time" className="input w-auto" value={x.open ?? ""} onChange={(e) => setSeasonal(i, { open: e.target.value })} aria-label="Opens" />
-                      <span className="text-ink/50">to</span>
+                      <span className="text-ink/70">to</span>
                       <input type="time" className="input w-auto" value={x.close ?? ""} onChange={(e) => setSeasonal(i, { close: e.target.value })} aria-label="Closes" />
                     </>
                   )}
@@ -341,9 +341,9 @@ function Editor({ email }: { email: string }) {
                   Show on website
                 </label>
                 <div className="flex">
-                  <button className="grid h-10 w-10 place-items-center rounded-full text-ink/60 hover:bg-gray-100 disabled:opacity-30" disabled={i === 0} onClick={() => moveService(i, -1)} aria-label="Move up"><ArrowUp className="h-4 w-4" /></button>
-                  <button className="grid h-10 w-10 place-items-center rounded-full text-ink/60 hover:bg-gray-100 disabled:opacity-30" disabled={i === s.services.length - 1} onClick={() => moveService(i, 1)} aria-label="Move down"><ArrowDown className="h-4 w-4" /></button>
-                  <button className="grid h-10 w-10 place-items-center rounded-full text-ink/60 hover:bg-red-50 hover:text-red-700" onClick={() => update((d) => (d.services.splice(i, 1), d))} aria-label="Delete service"><Trash2 className="h-4 w-4" /></button>
+                  <button className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-gray-100 disabled:opacity-30" disabled={i === 0} onClick={() => moveService(i, -1)} aria-label="Move up"><ArrowUp className="h-4 w-4" /></button>
+                  <button className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-gray-100 disabled:opacity-30" disabled={i === s.services.length - 1} onClick={() => moveService(i, 1)} aria-label="Move down"><ArrowDown className="h-4 w-4" /></button>
+                  <button className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-red-50 hover:text-red-700" onClick={() => update((d) => (d.services.splice(i, 1), d))} aria-label="Delete service"><Trash2 className="h-4 w-4" /></button>
                 </div>
               </div>
               <textarea className="input mt-3" rows={2} placeholder="Short description" value={sv.description} onChange={(e) => setService(i, { description: e.target.value })} aria-label="Description" />
@@ -356,7 +356,7 @@ function Editor({ email }: { email: string }) {
       {/* SAVE BAR */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t bg-white/95 backdrop-blur">
         <div className="container flex max-w-4xl items-center justify-between gap-4 py-4">
-          <span className="text-sm text-ink/60">{dirty ? "You have unsaved changes" : "All changes saved"}</span>
+          <span className="text-sm text-ink/70">{dirty ? "You have unsaved changes" : "All changes saved"}</span>
           <button className="btn-primary" onClick={save} disabled={saving || !dirty}>
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save changes
           </button>

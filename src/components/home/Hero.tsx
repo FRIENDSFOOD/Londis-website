@@ -27,8 +27,13 @@ export default function Hero() {
             <Clock className="h-3.5 w-3.5" />
             {open ? "Open now" : "Open 7 days"} · Today {fmtRange(t.open, t.close, t.closed)}
           </span>
-          <h1 className="text-4xl leading-tight sm:text-5xl md:text-6xl">
-            Your Local Supermarket on Bath Lane
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/80">
+            Your local supermarket on Bath Lane, Leicester
+          </p>
+          <h1 className="mt-3 text-5xl leading-[1.05] sm:text-6xl md:text-7xl">
+            Big on choice.
+            <br />
+            Close to home.
           </h1>
           <p className="mt-6 max-w-xl text-lg text-white/85">
             Fresh groceries, cold drinks, tasty treats and all the everyday bits you need — just around the corner.

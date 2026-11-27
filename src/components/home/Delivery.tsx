@@ -54,7 +54,7 @@ export default function Delivery() {
           })}
         </div>
 
-        <p className="mt-6 flex items-center justify-center gap-2 text-center text-xs text-ink/60">
+        <p className="mt-6 flex items-center justify-center gap-2 text-center text-xs text-ink/70">
           <Bike className="h-4 w-4" />
           Delivery areas, fees and prices are set by each app and may differ from in-store prices. Challenge 25 applies to age-restricted items.
         </p>

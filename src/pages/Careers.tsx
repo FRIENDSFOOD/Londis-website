@@ -1,9 +1,10 @@
+import { usePageMeta } from "@/lib/usePageMeta";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { Briefcase, CheckCircle2, Clock, Loader2 } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import Reveal from "@/components/Reveal";
-import { isEmail, isUkPhone, submitForm } from "@/lib/submitForm";
+import { hasFormEndpoint, isEmail, isUkPhone, submitForm } from "@/lib/submitForm";
 
 const roles = [
   {
@@ -22,6 +23,7 @@ type Form = { name: string; email: string; phone: string; role: string; availabi
 const empty: Form = { name: "", email: "", phone: "", role: "", availability: "", message: "" };
 
 export default function Careers() {
+  usePageMeta("Careers", "Join the team at Londis Bath Lane, Leicester. Store Assistant and Shift Supervisor roles, flexible hours.");
   const [form, setForm] = useState<Form>(empty);
   const [errors, setErrors] = useState<Partial<Record<keyof Form, string>>>({});
   const [sending, setSending] = useState(false);
@@ -46,9 +48,11 @@ export default function Careers() {
     if (!validate()) return;
     setSending(true);
     try {
-      await submitForm({ formType: "Job application", ...form });
-      toast.success("Application sent! Thank you — we'll be in touch soon.");
-      setForm(empty);
+      const how = await submitForm("Job application", { ...form });
+      if (how === "sent") {
+        toast.success("Application sent! Thank you — we'll be in touch soon.");
+        setForm(empty);
+      } else toast.success("Opening WhatsApp — just press send to apply.");
     } catch {
       toast.error("Sorry, something went wrong. Please try again or call us.");
     } finally {
@@ -75,7 +79,7 @@ export default function Careers() {
                     <Briefcase className="h-6 w-6 text-brand" />
                     <h3 className="text-xl">{r.title}</h3>
                   </div>
-                  <p className="mt-1 flex items-center gap-1.5 text-sm text-ink/60">
+                  <p className="mt-1 flex items-center gap-1.5 text-sm text-ink/70">
                     <Clock className="h-4 w-4" /> {r.type}
                   </p>
                   <ul className="mt-4 space-y-2">
@@ -88,7 +92,7 @@ export default function Careers() {
                 </div>
               </Reveal>
             ))}
-            <p className="text-sm text-ink/60">
+            <p className="text-sm text-ink/70">
               Applicants must have the right to work in the UK. Roles involving the sale of age-restricted products
               require applicants to be 18 or over.
             </p>
@@ -140,9 +144,9 @@ export default function Careers() {
                 {errors.message && <p className="error">{errors.message}</p>}
               </div>
               <button type="submit" disabled={sending} className="btn-primary w-full sm:w-auto">
-                {sending && <Loader2 className="h-4 w-4 animate-spin" />} Send application
+                {sending && <Loader2 className="h-4 w-4 animate-spin" />} {hasFormEndpoint() ? "Send application" : "Send via WhatsApp"}
               </button>
-              <p className="text-xs text-ink/50">
+              <p className="text-xs text-ink/70">
                 By applying you agree to us using your details to process your application, as described in our privacy policy.
               </p>
             </form>

@@ -12,6 +12,7 @@ export default function Footer() {
         <div className="md:col-span-2">
           <Logo light />
           <p className="mt-4 max-w-sm text-sm leading-relaxed">
+            <span className="block font-display text-lg font-bold text-white">{site.slogan}</span>
             Your friendly neighbourhood supermarket on Bath Lane — stocked with fresh food, drinks and everyday
             essentials, seven days a week.
           </p>
@@ -37,7 +38,7 @@ export default function Footer() {
             <li className="flex gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-bright" />{site.address.full}</li>
             <li><a href={site.phoneHref} className="flex gap-2 hover:text-brand-bright"><Phone className="h-4 w-4 text-brand-bright" />{site.phone}</a></li>
             <li><a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" className="flex gap-2 hover:text-brand-bright"><MessageCircle className="h-4 w-4 text-brand-bright" />WhatsApp {site.whatsapp}</a></li>
-            <li><a href={`mailto:${site.email}`} className="flex gap-2 hover:text-brand-bright"><Mail className="h-4 w-4 text-brand-bright" />{site.email}</a></li>
+            {site.email && <li><a href={`mailto:${site.email}`} className="flex gap-2 hover:text-brand-bright"><Mail className="h-4 w-4 text-brand-bright" />{site.email}</a></li>}
           </ul>
         </div>
       </div>

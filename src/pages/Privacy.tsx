@@ -1,13 +1,15 @@
+import { usePageMeta } from "@/lib/usePageMeta";
 import PageHeader from "@/components/PageHeader";
 import { site } from "@/config/site";
 
 export default function Privacy() {
+  usePageMeta("Privacy & Cookies");
   return (
     <>
       <PageHeader eyebrow="Legal" title="Privacy & Cookies Policy" />
       <section className="section">
         <div className="container max-w-3xl space-y-8 text-ink/80 [&_h2]:mb-3 [&_h2]:text-2xl [&_h2]:text-ink [&_li]:ml-5 [&_li]:list-disc [&_p]:leading-relaxed">
-          <p className="text-sm text-ink/50">Last updated: {new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" })}</p>
+          <p className="text-sm text-ink/70">Last updated: {new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" })}</p>
 
           <div>
             <h2>Who we are</h2>
@@ -15,7 +17,7 @@ export default function Privacy() {
               This website is operated by {site.companyName} (registered in England &amp; Wales, company number{" "}
               {site.companyNumber}), trading as "{site.tradingAs}", of {site.address.full}.
               We are the data controller for any personal information collected through this website. You can contact
-              us at {site.email}, on {site.phone}, or on WhatsApp at {site.whatsapp}.
+              us{site.email ? ` at ${site.email},` : ""} on {site.phone}, or on WhatsApp at {site.whatsapp}.
             </p>
           </div>
 
@@ -68,9 +70,11 @@ export default function Privacy() {
           <div>
             <h2>Cookies</h2>
             <p>
-              Our website itself does not set advertising or tracking cookies. Our location map is provided by Google
-              Maps, which may set its own cookies when the map loads; please see Google's privacy policy for details.
-              Fonts are loaded from Google Fonts. You can block or delete cookies at any time through your browser settings.
+              Our website does not use advertising, analytics or tracking cookies, and our fonts are hosted on our own
+              site. The map is only loaded if you press "Show map"; it is provided by Google Maps, which may then set
+              its own cookies (see Google's privacy policy). Links to WhatsApp and delivery apps take you to those
+              services, which have their own privacy policies. You can block or delete cookies at any time in your
+              browser settings.
             </p>
           </div>
 

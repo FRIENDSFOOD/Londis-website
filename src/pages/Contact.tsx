@@ -1,3 +1,4 @@
+import { usePageMeta } from "@/lib/usePageMeta";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { Loader2, Mail, MapPin, MessageCircle, Navigation, Phone } from "lucide-react";
@@ -5,12 +6,13 @@ import PageHeader from "@/components/PageHeader";
 import OpeningHours from "@/components/OpeningHours";
 import MapEmbed from "@/components/MapEmbed";
 import { directionsUrl, site } from "@/config/site";
-import { isEmail, submitForm } from "@/lib/submitForm";
+import { hasFormEndpoint, isEmail, submitForm } from "@/lib/submitForm";
 
 type Form = { name: string; email: string; message: string };
 const empty: Form = { name: "", email: "", message: "" };
 
 export default function Contact() {
+  usePageMeta("Contact Us", "Contact Londis Bath Lane, Leicester: call 0116 319 4464, WhatsApp 07399 799977, or visit us at 105 Bath Lane, LE3 5AU.");
   const [form, setForm] = useState<Form>(empty);
   const [errors, setErrors] = useState<Partial<Record<keyof Form, string>>>({});
   const [sending, setSending] = useState(false);
@@ -30,9 +32,11 @@ export default function Contact() {
 
     setSending(true);
     try {
-      await submitForm({ formType: "Contact", ...form });
-      toast.success("Message sent! Thanks for getting in touch.");
-      setForm(empty);
+      const how = await submitForm("Website enquiry", { ...form });
+      if (how === "sent") {
+        toast.success("Message sent! Thanks for getting in touch.");
+        setForm(empty);
+      } else toast.success("Opening WhatsApp — just press send.");
     } catch {
       toast.error("Sorry, something went wrong. Please try again or call us.");
     } finally {
@@ -50,19 +54,21 @@ export default function Contact() {
             <div className="card space-y-5 p-7">
               <a href={site.phoneHref} className="flex gap-4 hover:text-brand">
                 <Phone className="h-6 w-6 shrink-0 text-brand" />
-                <span><span className="block text-xs uppercase text-ink/50">Phone</span><span className="font-semibold">{site.phone}</span></span>
+                <span><span className="block text-xs uppercase text-ink/70">Phone</span><span className="font-semibold">{site.phone}</span></span>
               </a>
               <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" className="flex gap-4 hover:text-brand">
                 <MessageCircle className="h-6 w-6 shrink-0 text-brand" />
-                <span><span className="block text-xs uppercase text-ink/50">WhatsApp</span><span className="font-semibold">{site.whatsapp}</span></span>
+                <span><span className="block text-xs uppercase text-ink/70">WhatsApp</span><span className="font-semibold">{site.whatsapp}</span></span>
               </a>
+              {site.email && (
               <a href={`mailto:${site.email}`} className="flex gap-4 hover:text-brand">
                 <Mail className="h-6 w-6 shrink-0 text-brand" />
-                <span><span className="block text-xs uppercase text-ink/50">Email</span><span className="font-semibold break-all">{site.email}</span></span>
+                <span><span className="block text-xs uppercase text-ink/70">Email</span><span className="font-semibold break-all">{site.email}</span></span>
               </a>
+              )}
               <div className="flex gap-4">
                 <MapPin className="h-6 w-6 shrink-0 text-brand" />
-                <span><span className="block text-xs uppercase text-ink/50">Address</span><span className="font-semibold">{site.address.full}</span></span>
+                <span><span className="block text-xs uppercase text-ink/70">Address</span><span className="font-semibold">{site.address.full}</span></span>
               </div>
               <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary w-full">
                 <Navigation className="h-4 w-4" /> Get Directions
@@ -92,7 +98,7 @@ export default function Contact() {
                 {errors.message && <p className="error">{errors.message}</p>}
               </div>
               <button type="submit" disabled={sending} className="btn-primary">
-                {sending && <Loader2 className="h-4 w-4 animate-spin" />} Send message
+                {sending && <Loader2 className="h-4 w-4 animate-spin" />} {hasFormEndpoint() ? "Send message" : "Send via WhatsApp"}
               </button>
             </form>
             <MapEmbed className="h-[380px]" />
