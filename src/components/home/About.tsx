@@ -31,18 +31,39 @@ export default function About() {
             ].map(({ Icon, label }) => (
               <div
                 key={label}
-                className="flex items-center gap-3 rounded-xl bg-brand-light/60 px-4 py-3 text-sm font-semibold text-brand"
+                className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-ink shadow-sm ring-1 ring-black/5"
               >
-                <Icon className="h-5 w-5" /> {label}
+                <Icon className="h-5 w-5 text-brand" /> {label}
               </div>
             ))}
           </div>
 
-          {site.googleReviewUrl && (
-            <a href={site.googleReviewUrl} target="_blank" rel="noopener noreferrer" className="btn-primary mt-8">
-              <Star className="h-4 w-4" /> Leave us a Google review
-            </a>
-          )}
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            {site.googleRating && (
+              <a
+                href={site.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm shadow-sm ring-1 ring-black/5"
+              >
+                <span className="text-sun" aria-hidden>
+                  ★★★★★
+                </span>
+                <strong>{site.googleRating.value.toFixed(1)}</strong>
+                <span className="text-ink/70">on Google ({site.googleRating.count} reviews)</span>
+              </a>
+            )}
+            {site.googleReviewUrl && (
+              <a href={site.googleReviewUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                <Star className="h-4 w-4" /> Leave us a Google review
+              </a>
+            )}
+            {site.googleMapsUrl && (
+              <a href={site.googleMapsUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+                See us on Google
+              </a>
+            )}
+          </div>
         </Reveal>
 
         <Reveal delay={150} className="lg:col-span-2">

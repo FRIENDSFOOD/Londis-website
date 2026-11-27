@@ -24,7 +24,7 @@ export default function Categories() {
                   alt={c.title}
                   className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/30 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-forest/90 via-forest/25 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-4 text-white sm:p-5">
                   <h3 className="text-base leading-tight sm:text-xl">{c.title}</h3>
                   <p className="mt-1 hidden text-sm text-white/85 sm:block">{c.text}</p>

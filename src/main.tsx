@@ -9,6 +9,7 @@ import "@fontsource/inter/latin-600.css";
 import "@fontsource/poppins/latin-600.css";
 import "@fontsource/poppins/latin-700.css";
 import "@fontsource/poppins/latin-800.css";
+import "@fontsource/caveat/latin-600.css";
 import "./index.css";
 
 // VITE_HASH_ROUTER=1 is used for static previews that cannot rewrite URLs

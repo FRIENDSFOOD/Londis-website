@@ -11,12 +11,12 @@ export default function Footer() {
   const { settings } = useSettings();
   const today = todayName();
   return (
-    <footer className="bg-ink text-white/80">
+    <footer className="border-t-4 border-sun bg-forest text-white/80">
       <div className="container grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-5">
         <div className="sm:col-span-2">
           <Logo light />
           <p className="mt-4 max-w-sm text-sm leading-relaxed">
-            <span className="block font-display text-lg font-bold text-white">{site.slogan}</span>
+            <span className="block font-script text-2xl font-semibold text-sun">{site.slogan}</span>
             Your friendly neighbourhood supermarket on Bath Lane — stocked with fresh food, drinks and everyday
             essentials, seven days a week.
           </p>
@@ -27,37 +27,37 @@ export default function Footer() {
           <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">Quick links</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <Link to="/#about" className="hover:text-brand-bright">
+              <Link to="/#about" className="hover:text-white">
                 About Us
               </Link>
             </li>
             <li>
-              <Link to="/#products" className="hover:text-brand-bright">
+              <Link to="/#products" className="hover:text-white">
                 Our Products
               </Link>
             </li>
             <li>
-              <Link to="/#services" className="hover:text-brand-bright">
+              <Link to="/#services" className="hover:text-white">
                 Services
               </Link>
             </li>
             <li>
-              <Link to="/#delivery" className="hover:text-brand-bright">
+              <Link to="/#delivery" className="hover:text-white">
                 Delivery
               </Link>
             </li>
             <li>
-              <Link to="/careers" className="hover:text-brand-bright">
+              <Link to="/careers" className="hover:text-white">
                 Careers
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-brand-bright">
+              <Link to="/contact" className="hover:text-white">
                 Contact Us
               </Link>
             </li>
             <li>
-              <Link to="/privacy" className="hover:text-brand-bright">
+              <Link to="/privacy" className="hover:text-white">
                 Privacy &amp; Cookies
               </Link>
             </li>
@@ -87,7 +87,7 @@ export default function Footer() {
               {site.address.full}
             </li>
             <li>
-              <a href={site.phoneHref} className="flex gap-2 hover:text-brand-bright">
+              <a href={site.phoneHref} className="flex gap-2 hover:text-white">
                 <Phone className="h-4 w-4 text-brand-bright" />
                 {site.phone}
               </a>
@@ -97,7 +97,7 @@ export default function Footer() {
                 href={site.whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex gap-2 hover:text-brand-bright"
+                className="flex gap-2 hover:text-white"
               >
                 <MessageCircle className="h-4 w-4 text-brand-bright" />
                 WhatsApp {site.whatsapp}
@@ -105,7 +105,7 @@ export default function Footer() {
             </li>
             {site.email && (
               <li>
-                <a href={`mailto:${site.email}`} className="flex gap-2 hover:text-brand-bright">
+                <a href={`mailto:${site.email}`} className="flex gap-2 hover:text-white">
                   <Mail className="h-4 w-4 text-brand-bright" />
                   {site.email}
                 </a>

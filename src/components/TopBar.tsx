@@ -1,6 +1,5 @@
-import { CalendarDays, Clock, MapPin, MessageCircle, Phone } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import { Link } from "react-router-dom";
-import { site } from "@/config/site";
 import { fmtRange, upcomingSeasonal } from "@/lib/hours";
 import { useSettings } from "@/lib/settings";
 
@@ -23,33 +22,6 @@ export default function TopBar() {
           </span>
         </Link>
       )}
-      <div className="hidden bg-ink text-xs text-white/90 lg:block">
-        <div className="container flex flex-wrap items-center justify-center gap-x-6 gap-y-1 py-2 sm:justify-between">
-          <span className="flex items-center gap-1.5">
-            <MapPin className="h-3.5 w-3.5 text-brand-bright" />
-            {site.address.line1}, {site.address.city} {site.address.postcode}
-          </span>
-          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
-            <a href={site.phoneHref} className="flex items-center gap-1.5 hover:text-brand-bright">
-              <Phone className="h-3.5 w-3.5 text-brand-bright" />
-              {site.phone}
-            </a>
-            <a
-              href={site.whatsappHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 hover:text-brand-bright"
-            >
-              <MessageCircle className="h-3.5 w-3.5 text-brand-bright" />
-              WhatsApp
-            </a>
-            <span className="flex items-center gap-1.5 font-semibold">
-              <Clock className="h-3.5 w-3.5 text-brand-bright" />
-              Open 7 Days
-            </span>
-          </div>
-        </div>
-      </div>
     </>
   );
 }

@@ -131,7 +131,12 @@ export const site = {
     instagram: "",
     tiktok: "",
   },
-  googleReviewUrl: "", // TODO: your Google "write a review" link (hidden while empty)
+  // Google Business listing (place ID from Google Maps)
+  googlePlaceId: "ChIJCxuyLGxhd0gRttke8x1PvNk",
+  googleMapsUrl: "https://www.google.com/maps/place/?q=place_id:ChIJCxuyLGxhd0gRttke8x1PvNk",
+  googleReviewUrl: "https://search.google.com/local/writereview?placeid=ChIJCxuyLGxhd0gRttke8x1PvNk",
+  /** Set e.g. { value: 4.6, count: 45 } to show a star-rating badge; null hides it. */
+  googleRating: null as null | { value: number; count: number },
 
   /**
    * Delivery partners. TODO: paste the link to YOUR store page on each app
@@ -156,4 +161,4 @@ export const site = {
 
 const q = encodeURIComponent("105 Bath Lane, Leicester LE3 5AU");
 export const mapEmbedUrl = `https://maps.google.com/maps?q=${q}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
-export const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${q}`;
+export const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${q}&destination_place_id=${site.googlePlaceId}`;

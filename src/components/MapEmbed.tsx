@@ -20,7 +20,7 @@ export default function MapEmbed({ className = "" }: { className?: string }) {
         />
       ) : (
         <div className="flex h-full min-h-[360px] flex-col items-center justify-center gap-4 bg-[radial-gradient(circle_at_1px_1px,rgba(31,35,40,0.12)_1px,transparent_0)] p-6 text-center [background-size:18px_18px]">
-          <span className="grid h-14 w-14 place-items-center rounded-full bg-ink text-white shadow-lg">
+          <span className="grid h-14 w-14 place-items-center rounded-full bg-brand text-white shadow-lg">
             <MapPin className="h-7 w-7" />
           </span>
           <p className="font-display text-lg font-bold">
@@ -30,12 +30,7 @@ export default function MapEmbed({ className = "" }: { className?: string }) {
             <button type="button" onClick={() => setShow(true)} className="btn-primary">
               Show map
             </button>
-            <a
-              href={directionsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn border-2 border-ink text-ink hover:bg-ink hover:text-white"
-            >
+            <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost">
               <Navigation className="h-4 w-4" /> Directions
             </a>
           </div>

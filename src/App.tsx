@@ -3,15 +3,14 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 import Layout from "@/components/Layout";
 import Home from "@/pages/Home";
+import Careers from "@/pages/Careers";
+import Contact from "@/pages/Contact";
+import Privacy from "@/pages/Privacy";
+import NotFound from "@/pages/NotFound";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Admin (and the Supabase login code) only downloads when someone opens /admin
 const Admin = lazy(() => import("@/pages/Admin"));
-// Other pages load when first visited, so the home page downloads less
-const Careers = lazy(() => import("@/pages/Careers"));
-const Contact = lazy(() => import("@/pages/Contact"));
-const Privacy = lazy(() => import("@/pages/Privacy"));
-const NotFound = lazy(() => import("@/pages/NotFound"));
 
 function ScrollManager() {
   const { pathname, hash } = useLocation();

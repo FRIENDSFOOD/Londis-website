@@ -33,7 +33,7 @@ export default function ServiceLogo({ service, className = "" }: { service: Serv
   }
   const Icon = SERVICE_ICONS[service.icon ?? ""] ?? Store;
   return (
-    <span className="grid h-16 w-16 place-items-center rounded-2xl bg-ink text-white" aria-hidden>
+    <span className="grid h-16 w-16 place-items-center rounded-2xl bg-brand text-white" aria-hidden>
       <Icon className="h-8 w-8" />
     </span>
   );

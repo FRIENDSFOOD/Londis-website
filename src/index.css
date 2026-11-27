@@ -20,7 +20,7 @@
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition focus:outline-none focus-visible:ring-4 focus-visible:ring-brand-bright;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition focus:outline-none focus-visible:ring-4 focus-visible:ring-sun/60;
   }
   .btn-primary {
     @apply btn bg-brand text-white hover:bg-brand-dark;
@@ -29,13 +29,23 @@
     @apply btn bg-sun text-ink hover:brightness-95;
   }
   .btn-outline {
-    @apply btn border-2 border-white/80 text-white hover:bg-white hover:text-brand;
+    @apply btn border-2 border-white/80 text-white hover:bg-white hover:text-forest;
+  }
+  .btn-ghost {
+    @apply btn border-2 border-brand text-brand hover:bg-brand hover:text-white;
   }
   .section {
     @apply py-16 md:py-24;
   }
+  /* small label above section titles: orange dash + green text */
   .eyebrow {
-    @apply mb-3 inline-block rounded-full bg-brand-light px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand;
+    @apply mb-3 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-brand before:h-0.5 before:w-6 before:rounded-full before:bg-sun before:content-[''];
+  }
+  .eyebrow-light {
+    @apply eyebrow text-brand-bright;
+  }
+  .script {
+    @apply font-script font-semibold text-sun;
   }
   .card {
     @apply rounded-2xl bg-white shadow-card;
@@ -47,7 +57,7 @@
     @apply mb-1.5 block text-sm font-medium;
   }
   .error {
-    @apply mt-1 text-xs font-medium text-brand;
+    @apply mt-1 text-xs font-medium text-red-700;
   }
 }
 

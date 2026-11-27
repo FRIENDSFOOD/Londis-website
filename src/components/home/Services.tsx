@@ -8,12 +8,10 @@ export default function Services() {
   if (!services.length) return null;
 
   return (
-    <section id="services" className="section bg-brand text-white">
+    <section id="services" className="section bg-forest text-white">
       <div className="container">
         <Reveal className="mx-auto mb-12 max-w-2xl text-center">
-          <span className="mb-3 inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
-            Services
-          </span>
+          <span className="eyebrow-light">Services</span>
           <h2 className="text-3xl md:text-4xl">More than just a shop</h2>
           <p className="mt-4 text-white/85">Handy in-store services that save you a trip into town.</p>
         </Reveal>

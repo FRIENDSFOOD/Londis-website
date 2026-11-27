@@ -12,16 +12,16 @@ export default function MobileActionBar() {
       className="fixed inset-x-0 bottom-0 z-40 flex border-t border-gray-200 bg-white pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_16px_rgba(0,0,0,0.06)] lg:hidden"
     >
       <a href={site.phoneHref} className={item}>
-        <Phone className="h-5 w-5" /> Call
+        <Phone className="h-5 w-5 text-brand" /> Call
       </a>
       <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" className={item}>
-        <MessageCircle className="h-5 w-5" /> WhatsApp
+        <MessageCircle className="h-5 w-5 text-brand" /> WhatsApp
       </a>
       <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className={item}>
-        <Navigation className="h-5 w-5" /> Directions
+        <Navigation className="h-5 w-5 text-brand" /> Directions
       </a>
       <Link to="/#delivery" className={item}>
-        <Bike className="h-5 w-5" /> Delivery
+        <Bike className="h-5 w-5 text-brand" /> Delivery
       </Link>
     </nav>
   );
