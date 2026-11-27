@@ -18,5 +18,5 @@ export default function ServiceLogo({ service, className = "" }: { service: Serv
       />
     );
   }
-  return <span className="text-center font-display text-xl font-bold text-ink">{service.name}</span>;
+  return <span className="text-center font-display text-sm font-bold leading-tight text-ink">{service.name}</span>;
 }

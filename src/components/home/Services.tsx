@@ -17,16 +17,16 @@ export default function Services() {
           <h2 className="text-3xl md:text-4xl">More than just a shop</h2>
           <p className="mt-4 text-white/85">Handy in-store services that save you a trip into town.</p>
         </Reveal>
-        <div className="mx-auto grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-3">
           {services.map((s, i) => (
             <Reveal key={s.id} delay={i * 80}>
-              <div className="flex h-full flex-col overflow-hidden rounded-2xl bg-white text-ink shadow-card">
-                <div className="flex h-40 items-center justify-center border-b border-gray-100 bg-white p-5">
+              <div className="flex h-full items-center gap-4 rounded-2xl bg-white p-4 text-ink shadow-card">
+                <div className="flex h-20 w-20 shrink-0 items-center justify-center">
                   <ServiceLogo service={s} />
                 </div>
-                <div className="p-6">
-                  <h3 className="text-lg">{s.name}</h3>
-                  <p className="mt-1 text-sm text-ink/70">{s.description}</p>
+                <div className="min-w-0">
+                  <h3 className="text-base">{s.name}</h3>
+                  <p className="mt-1 text-sm leading-snug text-ink/70">{s.description}</p>
                 </div>
               </div>
             </Reveal>
