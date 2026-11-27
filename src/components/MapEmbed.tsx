@@ -19,20 +19,29 @@ export default function MapEmbed({ className = "" }: { className?: string }) {
           allowFullScreen
         />
       ) : (
-        <div className="flex h-full min-h-[360px] flex-col items-center justify-center gap-4 bg-[radial-gradient(circle_at_1px_1px,rgba(31,35,40,0.12)_1px,transparent_0)] [background-size:18px_18px] p-6 text-center">
+        <div className="flex h-full min-h-[360px] flex-col items-center justify-center gap-4 bg-[radial-gradient(circle_at_1px_1px,rgba(31,35,40,0.12)_1px,transparent_0)] p-6 text-center [background-size:18px_18px]">
           <span className="grid h-14 w-14 place-items-center rounded-full bg-ink text-white shadow-lg">
             <MapPin className="h-7 w-7" />
           </span>
-          <p className="font-display text-lg font-bold">{site.address.line1}, {site.address.city} {site.address.postcode}</p>
+          <p className="font-display text-lg font-bold">
+            {site.address.line1}, {site.address.city} {site.address.postcode}
+          </p>
           <div className="flex flex-wrap justify-center gap-3">
             <button type="button" onClick={() => setShow(true)} className="btn-primary">
               Show map
             </button>
-            <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className="btn border-2 border-ink text-ink hover:bg-ink hover:text-white">
+            <a
+              href={directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn border-2 border-ink text-ink hover:bg-ink hover:text-white"
+            >
               <Navigation className="h-4 w-4" /> Directions
             </a>
           </div>
-          <p className="max-w-xs text-xs text-ink/70">The map is provided by Google, which may set cookies when it loads.</p>
+          <p className="max-w-xs text-xs text-ink/70">
+            The map is provided by Google, which may set cookies when it loads.
+          </p>
         </div>
       )}
     </div>

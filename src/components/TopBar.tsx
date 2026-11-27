@@ -8,7 +8,7 @@ export default function TopBar() {
   // Show a notice for seasonal hours in the next 14 days
   const { settings } = useSettings();
   const notice = upcomingSeasonal(settings.seasonalHours).find(
-    (s) => s.isToday || (s.start.getTime() - Date.now()) / 86400000 <= 14
+    (s) => s.isToday || (s.start.getTime() - Date.now()) / 86400000 <= 14,
   );
 
   return (
@@ -17,12 +17,13 @@ export default function TopBar() {
         <Link to="/#about" className="block bg-sun text-center text-xs font-semibold text-ink hover:brightness-95">
           <span className="container flex items-center justify-center gap-2 py-2">
             <CalendarDays className="h-3.5 w-3.5" />
-            {notice.isToday ? "Today" : notice.name} ({notice.label}): {fmtRange(notice.open, notice.close, notice.closed)}
+            {notice.isToday ? "Today" : notice.name} ({notice.label}):{" "}
+            {fmtRange(notice.open, notice.close, notice.closed)}
             <span className="underline">See seasonal hours</span>
           </span>
         </Link>
       )}
-      <div className="bg-ink text-xs text-white/90">
+      <div className="hidden bg-ink text-xs text-white/90 lg:block">
         <div className="container flex flex-wrap items-center justify-center gap-x-6 gap-y-1 py-2 sm:justify-between">
           <span className="flex items-center gap-1.5">
             <MapPin className="h-3.5 w-3.5 text-brand-bright" />
@@ -33,7 +34,12 @@ export default function TopBar() {
               <Phone className="h-3.5 w-3.5 text-brand-bright" />
               {site.phone}
             </a>
-            <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-brand-bright">
+            <a
+              href={site.whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 hover:text-brand-bright"
+            >
               <MessageCircle className="h-3.5 w-3.5 text-brand-bright" />
               WhatsApp
             </a>

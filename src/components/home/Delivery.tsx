@@ -20,8 +20,8 @@ export default function Delivery() {
             const inner = (
               <>
                 <span className="h-1.5 w-12 rounded-full" style={{ backgroundColor: d.color }} aria-hidden />
-                <span className="mt-4 block font-display text-xl sm:text-2xl font-bold text-ink">{d.name}</span>
-                <span className="mt-auto flex items-center gap-1.5 pt-5 text-xs sm:text-sm font-semibold text-ink/70 group-hover:text-ink">
+                <span className="mt-4 block font-display text-xl font-bold text-ink sm:text-2xl">{d.name}</span>
+                <span className="mt-auto flex items-center gap-1.5 pt-5 text-xs font-semibold text-ink/70 group-hover:text-ink sm:text-sm">
                   {href ? (
                     <>
                       Order now <ArrowUpRight className="h-4 w-4" />
@@ -41,7 +41,7 @@ export default function Delivery() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="card group flex h-full min-h-[150px] flex-col p-5 sm:p-6 transition hover:-translate-y-1 hover:shadow-xl"
+                    className="card group flex h-full min-h-[150px] flex-col p-5 transition hover:-translate-y-1 hover:shadow-xl sm:p-6"
                     aria-label={`Order from Londis Bath Lane on ${d.name}`}
                   >
                     {inner}
@@ -56,7 +56,8 @@ export default function Delivery() {
 
         <p className="mt-6 flex items-center justify-center gap-2 text-center text-xs text-ink/70">
           <Bike className="h-4 w-4" />
-          Delivery areas, fees and prices are set by each app and may differ from in-store prices. Challenge 25 applies to age-restricted items.
+          Delivery areas, fees and prices are set by each app and may differ from in-store prices. Challenge 25 applies
+          to age-restricted items.
         </p>
       </div>
     </section>

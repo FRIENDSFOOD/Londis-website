@@ -1,23 +1,11 @@
 import { Info } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import Photo from "@/components/Photo";
-
-const categories = [
-  { img: "aisle-fresh", title: "Fresh & Bakery", text: "Bread, fruit, veg and cupboard staples, restocked daily." },
-  { img: "chilled", title: "Chilled & Dairy", text: "Milk, cheese, yoghurts, meats and ready-to-eat favourites." },
-  { img: "frozen", title: "Frozen Food", text: "Pizzas, ice cream, ready meals and freezer essentials." },
-  { img: "snacks", title: "Snacks & Confectionery", text: "Crisps, chocolate, sweets and treats for every craving." },
-  { img: "beer", title: "Beers & Ciders", text: "Ice-cold lagers, ales and ciders — singles and multipacks." },
-  { img: "wine", title: "Wines & Spirits", text: "Reds, whites, rosé, fizz and popular spirits." },
-  { img: "soft-drinks", title: "Soft Drinks & Water", text: "Fizzy drinks, juices, energy drinks and bottled water." },
-  { img: "noodles", title: "World Foods", text: "Instant noodles and flavours from around the world." },
-];
-
-const alsoInStore = ["Household essentials", "Toiletries", "Coffee to go", "Mobile top-ups", "Seasonal offers"];
+import { alsoInStore, categories } from "@/content/products";
 
 export default function Categories() {
   return (
-    <section id="products" className="section bg-white">
+    <section id="products" className="section bg-white pt-16 md:pt-20">
       <div className="container">
         <Reveal className="mx-auto mb-12 max-w-2xl text-center">
           <span className="eyebrow">Our Products</span>

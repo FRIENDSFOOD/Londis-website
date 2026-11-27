@@ -58,3 +58,30 @@ export function isOpenNow(hours: DayHours[], seasonal: SeasonalHours[], now = ne
 }
 
 export const todayName = (now = new Date()) => DAYS[now.getDay()];
+
+/** Hours for any given date (seasonal overrides included). */
+function hoursOn(hours: DayHours[], seasonal: SeasonalHours[], date: Date) {
+  return todaysHours(hours, seasonal, date);
+}
+
+/**
+ * Short live status, e.g. "Open until 23:00", "Opens at 07:00", "Opens tomorrow at 08:00".
+ */
+export function openStatus(hours: DayHours[], seasonal: SeasonalHours[], now = new Date()) {
+  const open = isOpenNow(hours, seasonal, now);
+  const t = hoursOn(hours, seasonal, now);
+  if (open && t.close) return { open: true, text: `Open until ${t.close}` };
+  const mins = now.getHours() * 60 + now.getMinutes();
+  if (!t.closed && t.open) {
+    const [oh, om] = t.open.split(":").map(Number);
+    if (mins < oh * 60 + om) return { open: false, text: `Opens at ${t.open}` };
+  }
+  for (let i = 1; i <= 7; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i, 12);
+    const h = hoursOn(hours, seasonal, d);
+    if (!h.closed && h.open) {
+      return { open: false, text: i === 1 ? `Opens tomorrow at ${h.open}` : `Opens ${DAYS[d.getDay()]} at ${h.open}` };
+    }
+  }
+  return { open: false, text: "Closed" };
+}

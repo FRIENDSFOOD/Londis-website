@@ -4,10 +4,18 @@ import { toast } from "sonner";
 import type { Session } from "@supabase/supabase-js";
 import { ArrowDown, ArrowUp, CalendarPlus, Copy, Loader2, LogOut, Plus, Save, Trash2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { defaultSettings, fetchSettings, saveSettings, useSettings, type Settings } from "@/lib/settings";
+import { defaultSettings, fetchSettings, useSettings, type Settings } from "@/lib/settings";
 import type { SeasonalHours, Service } from "@/config/site";
 import Logo from "@/components/Logo";
 import { SERVICE_ICONS } from "@/components/ServiceLogo";
+
+async function saveSettings(s: Settings) {
+  if (!supabase) throw new Error("Supabase is not connected");
+  const { error } = await supabase
+    .from("site_settings")
+    .upsert({ id: 1, data: s, updated_at: new Date().toISOString() });
+  if (error) throw error;
+}
 
 const todayISO = () => new Date().toISOString().slice(0, 10);
 
@@ -40,9 +48,14 @@ export default function Admin() {
         <div className="container flex h-20 items-center justify-between">
           <Logo />
           <div className="flex items-center gap-3">
-            <Link to="/" className="text-sm font-medium text-ink/70 hover:text-ink">View website</Link>
+            <Link to="/" className="text-sm font-medium text-ink/70 hover:text-ink">
+              View website
+            </Link>
             {session && (
-              <button onClick={() => supabase?.auth.signOut()} className="btn border border-gray-300 bg-white px-4 py-2 hover:bg-gray-100">
+              <button
+                onClick={() => supabase?.auth.signOut()}
+                className="btn border border-gray-300 bg-white px-4 py-2 hover:bg-gray-100"
+              >
                 <LogOut className="h-4 w-4" /> Sign out
               </button>
             )}
@@ -50,7 +63,15 @@ export default function Admin() {
         </div>
       </header>
       <main className="container max-w-4xl py-10">
-        {!supabase ? <NotConnected /> : checking ? <Spinner /> : session ? <Editor email={session.user.email ?? ""} /> : <Login />}
+        {!supabase ? (
+          <NotConnected />
+        ) : checking ? (
+          <Spinner />
+        ) : session ? (
+          <Editor email={session.user.email ?? ""} />
+        ) : (
+          <Login />
+        )}
       </main>
     </div>
   );
@@ -73,7 +94,9 @@ function NotConnected() {
         free Supabase project, run <code>supabase/schema.sql</code>, then add <code>VITE_SUPABASE_URL</code> and{" "}
         <code>VITE_SUPABASE_ANON_KEY</code> to your <code>.env</code> file (or your host's environment settings).
       </p>
-      <p className="text-ink/70">Until then the website uses the default hours and services from <code>src/config/site.ts</code>.</p>
+      <p className="text-ink/70">
+        Until then the website uses the default hours and services from <code>src/config/site.ts</code>.
+      </p>
     </div>
   );
 }
@@ -93,12 +116,32 @@ function Login() {
     <form onSubmit={submit} className="card mx-auto max-w-md space-y-5 p-8">
       <h1 className="text-2xl">Staff sign in</h1>
       <div>
-        <label className="label" htmlFor="a-email">Email</label>
-        <input id="a-email" type="email" className="input" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="username" required />
+        <label className="label" htmlFor="a-email">
+          Email
+        </label>
+        <input
+          id="a-email"
+          type="email"
+          className="input"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="username"
+          required
+        />
       </div>
       <div>
-        <label className="label" htmlFor="a-pass">Password</label>
-        <input id="a-pass" type="password" className="input" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" required />
+        <label className="label" htmlFor="a-pass">
+          Password
+        </label>
+        <input
+          id="a-pass"
+          type="password"
+          className="input"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          autoComplete="current-password"
+          required
+        />
       </div>
       <button className="btn-primary w-full" disabled={busy}>
         {busy && <Loader2 className="h-4 w-4 animate-spin" />} Sign in
@@ -107,7 +150,17 @@ function Login() {
   );
 }
 
-function Section({ title, hint, children, action }: { title: string; hint?: string; children: ReactNode; action?: ReactNode }) {
+function Section({
+  title,
+  hint,
+  children,
+  action,
+}: {
+  title: string;
+  hint?: string;
+  children: ReactNode;
+  action?: ReactNode;
+}) {
   return (
     <section className="card p-6 md:p-8">
       <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
@@ -225,7 +278,10 @@ function Editor({ email }: { email: string }) {
       >
         <div className="divide-y divide-gray-100">
           {s.hours.map((h, i) => (
-            <div key={h.day} className="grid grid-cols-[6.5rem_1fr] items-center gap-3 py-3 sm:grid-cols-[8rem_auto_1fr]">
+            <div
+              key={h.day}
+              className="grid grid-cols-[6.5rem_1fr] items-center gap-3 py-3 sm:grid-cols-[8rem_auto_1fr]"
+            >
               <span className="font-semibold">{h.day}</span>
               <label className="flex items-center gap-2 text-sm">
                 <input
@@ -238,9 +294,21 @@ function Editor({ email }: { email: string }) {
               </label>
               {!h.closed && (
                 <div className="col-span-2 flex items-center gap-2 sm:col-span-1">
-                  <input type="time" className="input max-w-[9rem]" value={h.open} onChange={(e) => update((d) => ((d.hours[i].open = e.target.value), d))} aria-label={`${h.day} opening time`} />
+                  <input
+                    type="time"
+                    className="input max-w-[9rem]"
+                    value={h.open}
+                    onChange={(e) => update((d) => ((d.hours[i].open = e.target.value), d))}
+                    aria-label={`${h.day} opening time`}
+                  />
                   <span className="text-ink/70">to</span>
-                  <input type="time" className="input max-w-[9rem]" value={h.close} onChange={(e) => update((d) => ((d.hours[i].close = e.target.value), d))} aria-label={`${h.day} closing time`} />
+                  <input
+                    type="time"
+                    className="input max-w-[9rem]"
+                    value={h.close}
+                    onChange={(e) => update((d) => ((d.hours[i].close = e.target.value), d))}
+                    aria-label={`${h.day} closing time`}
+                  />
                 </div>
               )}
             </div>
@@ -255,7 +323,9 @@ function Editor({ email }: { email: string }) {
         action={
           <button
             className="btn-primary px-4 py-2"
-            onClick={() => update((d) => (d.seasonalHours.push({ name: "", date: todayISO(), open: "09:00", close: "21:00" }), d))}
+            onClick={() =>
+              update((d) => (d.seasonalHours.push({ name: "", date: todayISO(), open: "09:00", close: "21:00" }), d))
+            }
           >
             <CalendarPlus className="h-4 w-4" /> Add
           </button>
@@ -268,11 +338,24 @@ function Editor({ email }: { email: string }) {
             const end = x.date ?? x.to ?? "";
             const past = !!end && end < todayISO();
             return (
-              <div key={i} className={`rounded-xl border p-4 ${past ? "border-gray-200 bg-gray-50 opacity-70" : "border-gray-200"}`}>
+              <div
+                key={i}
+                className={`rounded-xl border p-4 ${past ? "border-gray-200 bg-gray-50 opacity-70" : "border-gray-200"}`}
+              >
                 <div className="flex flex-wrap items-center gap-3">
-                  <input className="input flex-1 min-w-[12rem]" placeholder="e.g. Christmas Day" value={x.name} onChange={(e) => setSeasonal(i, { name: e.target.value })} aria-label="Name" />
+                  <input
+                    className="input min-w-[12rem] flex-1"
+                    placeholder="e.g. Christmas Day"
+                    value={x.name}
+                    onChange={(e) => setSeasonal(i, { name: e.target.value })}
+                    aria-label="Name"
+                  />
                   {past && <span className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold">Past</span>}
-                  <button className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-red-50 hover:text-red-700" onClick={() => update((d) => (d.seasonalHours.splice(i, 1), d))} aria-label="Delete">
+                  <button
+                    className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-red-50 hover:text-red-700"
+                    onClick={() => update((d) => (d.seasonalHours.splice(i, 1), d))}
+                    aria-label="Delete"
+                  >
                     <Trash2 className="h-4 w-4" />
                   </button>
                 </div>
@@ -292,24 +375,61 @@ function Editor({ email }: { email: string }) {
                   </select>
                   {isRange ? (
                     <>
-                      <input type="date" className="input w-auto" value={x.from ?? ""} onChange={(e) => setSeasonal(i, { from: e.target.value })} aria-label="From" />
+                      <input
+                        type="date"
+                        className="input w-auto"
+                        value={x.from ?? ""}
+                        onChange={(e) => setSeasonal(i, { from: e.target.value })}
+                        aria-label="From"
+                      />
                       <span className="text-ink/70">to</span>
-                      <input type="date" className="input w-auto" value={x.to ?? ""} onChange={(e) => setSeasonal(i, { to: e.target.value })} aria-label="To" />
+                      <input
+                        type="date"
+                        className="input w-auto"
+                        value={x.to ?? ""}
+                        onChange={(e) => setSeasonal(i, { to: e.target.value })}
+                        aria-label="To"
+                      />
                     </>
                   ) : (
-                    <input type="date" className="input w-auto" value={x.date} onChange={(e) => setSeasonal(i, { date: e.target.value })} aria-label="Date" />
+                    <input
+                      type="date"
+                      className="input w-auto"
+                      value={x.date}
+                      onChange={(e) => setSeasonal(i, { date: e.target.value })}
+                      aria-label="Date"
+                    />
                   )}
                 </div>
                 <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
                   <label className="flex items-center gap-2">
-                    <input type="checkbox" className="h-5 w-5 accent-ink" checked={!!x.closed} onChange={(e) => setSeasonal(i, { closed: e.target.checked, open: x.open || "09:00", close: x.close || "21:00" })} />
+                    <input
+                      type="checkbox"
+                      className="h-5 w-5 accent-ink"
+                      checked={!!x.closed}
+                      onChange={(e) =>
+                        setSeasonal(i, { closed: e.target.checked, open: x.open || "09:00", close: x.close || "21:00" })
+                      }
+                    />
                     Closed all day
                   </label>
                   {!x.closed && (
                     <>
-                      <input type="time" className="input w-auto" value={x.open ?? ""} onChange={(e) => setSeasonal(i, { open: e.target.value })} aria-label="Opens" />
+                      <input
+                        type="time"
+                        className="input w-auto"
+                        value={x.open ?? ""}
+                        onChange={(e) => setSeasonal(i, { open: e.target.value })}
+                        aria-label="Opens"
+                      />
                       <span className="text-ink/70">to</span>
-                      <input type="time" className="input w-auto" value={x.close ?? ""} onChange={(e) => setSeasonal(i, { close: e.target.value })} aria-label="Closes" />
+                      <input
+                        type="time"
+                        className="input w-auto"
+                        value={x.close ?? ""}
+                        onChange={(e) => setSeasonal(i, { close: e.target.value })}
+                        aria-label="Closes"
+                      />
                     </>
                   )}
                 </div>
@@ -326,7 +446,9 @@ function Editor({ email }: { email: string }) {
         action={
           <button
             className="btn-primary px-4 py-2"
-            onClick={() => update((d) => (d.services.push({ id: `svc-${Date.now()}`, name: "", description: "", enabled: true }), d))}
+            onClick={() =>
+              update((d) => (d.services.push({ id: `svc-${Date.now()}`, name: "", description: "", enabled: true }), d))
+            }
           >
             <Plus className="h-4 w-4" /> Add service
           </button>
@@ -336,24 +458,75 @@ function Editor({ email }: { email: string }) {
           {s.services.map((sv, i) => (
             <div key={sv.id} className="rounded-xl border border-gray-200 p-4">
               <div className="flex flex-wrap items-center gap-3">
-                <input className="input flex-1 min-w-[12rem]" placeholder="Service name" value={sv.name} onChange={(e) => setService(i, { name: e.target.value })} aria-label="Service name" />
+                <input
+                  className="input min-w-[12rem] flex-1"
+                  placeholder="Service name"
+                  value={sv.name}
+                  onChange={(e) => setService(i, { name: e.target.value })}
+                  aria-label="Service name"
+                />
                 <label className="flex items-center gap-2 text-sm">
-                  <input type="checkbox" className="h-5 w-5 accent-ink" checked={sv.enabled} onChange={(e) => setService(i, { enabled: e.target.checked })} />
+                  <input
+                    type="checkbox"
+                    className="h-5 w-5 accent-ink"
+                    checked={sv.enabled}
+                    onChange={(e) => setService(i, { enabled: e.target.checked })}
+                  />
                   Show on website
                 </label>
                 <div className="flex">
-                  <button className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-gray-100 disabled:opacity-30" disabled={i === 0} onClick={() => moveService(i, -1)} aria-label="Move up"><ArrowUp className="h-4 w-4" /></button>
-                  <button className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-gray-100 disabled:opacity-30" disabled={i === s.services.length - 1} onClick={() => moveService(i, 1)} aria-label="Move down"><ArrowDown className="h-4 w-4" /></button>
-                  <button className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-red-50 hover:text-red-700" onClick={() => update((d) => (d.services.splice(i, 1), d))} aria-label="Delete service"><Trash2 className="h-4 w-4" /></button>
+                  <button
+                    className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-gray-100 disabled:opacity-30"
+                    disabled={i === 0}
+                    onClick={() => moveService(i, -1)}
+                    aria-label="Move up"
+                  >
+                    <ArrowUp className="h-4 w-4" />
+                  </button>
+                  <button
+                    className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-gray-100 disabled:opacity-30"
+                    disabled={i === s.services.length - 1}
+                    onClick={() => moveService(i, 1)}
+                    aria-label="Move down"
+                  >
+                    <ArrowDown className="h-4 w-4" />
+                  </button>
+                  <button
+                    className="grid h-10 w-10 place-items-center rounded-full text-ink/70 hover:bg-red-50 hover:text-red-700"
+                    onClick={() => update((d) => (d.services.splice(i, 1), d))}
+                    aria-label="Delete service"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
                 </div>
               </div>
-              <textarea className="input mt-3" rows={2} placeholder="Short description" value={sv.description} onChange={(e) => setService(i, { description: e.target.value })} aria-label="Description" />
+              <textarea
+                className="input mt-3"
+                rows={2}
+                placeholder="Short description"
+                value={sv.description}
+                onChange={(e) => setService(i, { description: e.target.value })}
+                aria-label="Description"
+              />
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                <input className="input" placeholder="Logo file name, e.g. paypoint.png (optional)" value={sv.logo ?? ""} onChange={(e) => setService(i, { logo: e.target.value.trim() || undefined })} aria-label="Logo file name" />
-                <select className="input" value={sv.icon ?? ""} onChange={(e) => setService(i, { icon: e.target.value || undefined })} aria-label="Icon if no logo">
+                <input
+                  className="input"
+                  placeholder="Logo file name, e.g. paypoint.png (optional)"
+                  value={sv.logo ?? ""}
+                  onChange={(e) => setService(i, { logo: e.target.value.trim() || undefined })}
+                  aria-label="Logo file name"
+                />
+                <select
+                  className="input"
+                  value={sv.icon ?? ""}
+                  onChange={(e) => setService(i, { icon: e.target.value || undefined })}
+                  aria-label="Icon if no logo"
+                >
                   <option value="">Icon if no logo: default</option>
                   {Object.keys(SERVICE_ICONS).map((k) => (
-                    <option key={k} value={k}>Icon: {k}</option>
+                    <option key={k} value={k}>
+                      Icon: {k}
+                    </option>
                   ))}
                 </select>
               </div>

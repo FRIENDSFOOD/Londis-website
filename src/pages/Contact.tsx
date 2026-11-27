@@ -12,7 +12,10 @@ type Form = { name: string; email: string; message: string };
 const empty: Form = { name: "", email: "", message: "" };
 
 export default function Contact() {
-  usePageMeta("Contact Us", "Contact Londis Bath Lane, Leicester: call 0116 319 4464, WhatsApp 07399 799977, or visit us at 105 Bath Lane, LE3 5AU.");
+  usePageMeta(
+    "Contact Us",
+    "Contact Londis Bath Lane, Leicester: call 0116 319 4464, WhatsApp 07399 799977, or visit us at 105 Bath Lane, LE3 5AU.",
+  );
   const [form, setForm] = useState<Form>(empty);
   const [errors, setErrors] = useState<Partial<Record<keyof Form, string>>>({});
   const [sending, setSending] = useState(false);
@@ -46,7 +49,11 @@ export default function Contact() {
 
   return (
     <>
-      <PageHeader eyebrow="Contact Us" title="We'd love to hear from you" intro="Questions, product requests or feedback — drop us a message or pop into the store." />
+      <PageHeader
+        eyebrow="Contact Us"
+        title="We'd love to hear from you"
+        intro="Questions, product requests or feedback — drop us a message or pop into the store."
+      />
 
       <section className="section">
         <div className="container grid gap-10 lg:grid-cols-3">
@@ -54,21 +61,38 @@ export default function Contact() {
             <div className="card space-y-5 p-7">
               <a href={site.phoneHref} className="flex gap-4 hover:text-brand">
                 <Phone className="h-6 w-6 shrink-0 text-brand" />
-                <span><span className="block text-xs uppercase text-ink/70">Phone</span><span className="font-semibold">{site.phone}</span></span>
+                <span>
+                  <span className="block text-xs uppercase text-ink/70">Phone</span>
+                  <span className="font-semibold">{site.phone}</span>
+                </span>
               </a>
-              <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" className="flex gap-4 hover:text-brand">
+              <a
+                href={site.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex gap-4 hover:text-brand"
+              >
                 <MessageCircle className="h-6 w-6 shrink-0 text-brand" />
-                <span><span className="block text-xs uppercase text-ink/70">WhatsApp</span><span className="font-semibold">{site.whatsapp}</span></span>
+                <span>
+                  <span className="block text-xs uppercase text-ink/70">WhatsApp</span>
+                  <span className="font-semibold">{site.whatsapp}</span>
+                </span>
               </a>
               {site.email && (
-              <a href={`mailto:${site.email}`} className="flex gap-4 hover:text-brand">
-                <Mail className="h-6 w-6 shrink-0 text-brand" />
-                <span><span className="block text-xs uppercase text-ink/70">Email</span><span className="font-semibold break-all">{site.email}</span></span>
-              </a>
+                <a href={`mailto:${site.email}`} className="flex gap-4 hover:text-brand">
+                  <Mail className="h-6 w-6 shrink-0 text-brand" />
+                  <span>
+                    <span className="block text-xs uppercase text-ink/70">Email</span>
+                    <span className="break-all font-semibold">{site.email}</span>
+                  </span>
+                </a>
               )}
               <div className="flex gap-4">
                 <MapPin className="h-6 w-6 shrink-0 text-brand" />
-                <span><span className="block text-xs uppercase text-ink/70">Address</span><span className="font-semibold">{site.address.full}</span></span>
+                <span>
+                  <span className="block text-xs uppercase text-ink/70">Address</span>
+                  <span className="font-semibold">{site.address.full}</span>
+                </span>
               </div>
               <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className="btn-primary w-full">
                 <Navigation className="h-4 w-4" /> Get Directions
@@ -82,23 +106,37 @@ export default function Contact() {
               <h2 className="text-2xl">Send us a message</h2>
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <label className="label" htmlFor="c-name">Name *</label>
+                  <label className="label" htmlFor="c-name">
+                    Name *
+                  </label>
                   <input id="c-name" className="input" value={form.name} onChange={set("name")} autoComplete="name" />
                   {errors.name && <p className="error">{errors.name}</p>}
                 </div>
                 <div>
-                  <label className="label" htmlFor="c-email">Email *</label>
-                  <input id="c-email" type="email" className="input" value={form.email} onChange={set("email")} autoComplete="email" />
+                  <label className="label" htmlFor="c-email">
+                    Email *
+                  </label>
+                  <input
+                    id="c-email"
+                    type="email"
+                    className="input"
+                    value={form.email}
+                    onChange={set("email")}
+                    autoComplete="email"
+                  />
                   {errors.email && <p className="error">{errors.email}</p>}
                 </div>
               </div>
               <div>
-                <label className="label" htmlFor="c-message">Message *</label>
+                <label className="label" htmlFor="c-message">
+                  Message *
+                </label>
                 <textarea id="c-message" rows={6} className="input" value={form.message} onChange={set("message")} />
                 {errors.message && <p className="error">{errors.message}</p>}
               </div>
               <button type="submit" disabled={sending} className="btn-primary">
-                {sending && <Loader2 className="h-4 w-4 animate-spin" />} {hasFormEndpoint() ? "Send message" : "Send via WhatsApp"}
+                {sending && <Loader2 className="h-4 w-4 animate-spin" />}{" "}
+                {hasFormEndpoint() ? "Send message" : "Send via WhatsApp"}
               </button>
             </form>
             <MapEmbed className="h-[380px]" />

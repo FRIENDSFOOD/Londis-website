@@ -89,12 +89,27 @@ connect them. The easiest free option:
 
 ```
 src/
-  config/site.ts        ← all business details
-  components/           ← header, footer, top bar, shared bits
-  components/home/      ← home page sections (hero, products, services…)
-  pages/                ← Home, Careers, Contact, Privacy, 404
-public/images/          ← pictures
+  config/site.ts        ← business details, hours, services, delivery links (edit this first)
+  content/              ← products, gallery photos, menu items
+  components/           ← header, footer, quick-info, mobile action bar, shared bits
+  components/home/      ← home page sections (order is set in pages/Home.tsx)
+  pages/                ← Home, Careers, Contact, Privacy, Admin, 404
+  lib/                  ← opening-hours logic (+ tests), live settings, forms
+public/images/          ← store photos (2000px JPG + 800/1600px WebP)
+public/logos/           ← PayPoint, Payzone, Lottery logos
+supabase/schema.sql     ← database setup for /admin
 ```
+
+## Useful commands
+
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Run the site locally at http://localhost:8080 |
+| `npm test` | Run the automatic tests (opening hours, seasonal hours) |
+| `npm run build` | Build the site for publishing (into `dist/`) |
+| `npm run format` | Tidy up code formatting |
+
+Every push to GitHub runs the tests and a build automatically (see the **Actions** tab).
 
 ## Publish online
 

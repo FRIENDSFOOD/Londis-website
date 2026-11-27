@@ -18,7 +18,12 @@ export async function submitForm(title: string, data: Record<string, string>): P
     if (!res.ok) throw new Error("Failed to send");
     return "sent";
   }
-  const lines = [`*${title}* (from the website)`, ...Object.entries(data).filter(([, v]) => v.trim()).map(([k, v]) => `${label(k)}: ${v.trim()}`)];
+  const lines = [
+    `*${title}* (from the website)`,
+    ...Object.entries(data)
+      .filter(([, v]) => v.trim())
+      .map(([k, v]) => `${label(k)}: ${v.trim()}`),
+  ];
   const url = `${site.whatsappHref}?text=${encodeURIComponent(lines.join("\n"))}`;
   window.open(url, "_blank", "noopener,noreferrer") || (window.location.href = url);
   return "whatsapp";

@@ -38,10 +38,15 @@ export default function OpeningHours({ className = "" }: { className?: string })
               ? fmtRange(todaySeasonal.open, todaySeasonal.close, todaySeasonal.closed)
               : fmtRange(h.open, h.close, h.closed);
           return (
-            <li key={h.day} className={`flex justify-between py-2.5 text-sm ${isToday ? "font-semibold text-brand" : ""}`}>
+            <li
+              key={h.day}
+              className={`flex justify-between py-2.5 text-sm ${isToday ? "font-semibold text-brand" : ""}`}
+            >
               <span>
                 {h.day}
-                {isToday && <span className="ml-2 rounded-full bg-brand-light px-2 py-0.5 text-[10px] uppercase">Today</span>}
+                {isToday && (
+                  <span className="ml-2 rounded-full bg-brand-light px-2 py-0.5 text-[10px] uppercase">Today</span>
+                )}
               </span>
               <span>{time}</span>
             </li>

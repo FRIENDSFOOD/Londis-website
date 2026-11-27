@@ -1,20 +1,21 @@
-import { usePageMeta } from "@/lib/usePageMeta";
 import Hero from "@/components/home/Hero";
-import Delivery from "@/components/home/Delivery";
+import QuickInfo from "@/components/home/QuickInfo";
 import Categories from "@/components/home/Categories";
+import Delivery from "@/components/home/Delivery";
 import Services from "@/components/home/Services";
 import Gallery from "@/components/home/Gallery";
 import About from "@/components/home/About";
 import Location from "@/components/home/Location";
 import Tagline from "@/components/home/Tagline";
 
+/** Home page — sections in order. Reorder here to move a section. */
 export default function Home() {
-  usePageMeta();
   return (
     <>
       <Hero />
-      <Delivery />
+      <QuickInfo />
       <Categories />
+      <Delivery />
       <Services />
       <Gallery />
       <About />

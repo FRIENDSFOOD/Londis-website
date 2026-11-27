@@ -5,7 +5,7 @@ import { directionsUrl, site } from "@/config/site";
 
 export default function Location() {
   return (
-    <section id="location" className="section bg-gray-50">
+    <section id="location" className="section bg-white">
       <div className="container grid gap-10 lg:grid-cols-5">
         <Reveal className="lg:col-span-2">
           <span className="eyebrow">Location</span>
@@ -25,11 +25,18 @@ export default function Location() {
             </li>
             <li className="flex gap-4">
               <Phone className="mt-1 h-6 w-6 shrink-0 text-brand" />
-              <a href={site.phoneHref} className="font-semibold hover:text-brand">{site.phone}</a>
+              <a href={site.phoneHref} className="font-semibold hover:text-brand">
+                {site.phone}
+              </a>
             </li>
             <li className="flex gap-4">
               <MessageCircle className="mt-1 h-6 w-6 shrink-0 text-brand" />
-              <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-brand">
+              <a
+                href={site.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold hover:text-brand"
+              >
                 WhatsApp {site.whatsapp}
               </a>
             </li>

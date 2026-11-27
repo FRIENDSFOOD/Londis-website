@@ -1,6 +1,5 @@
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import { site, type DayHours, type SeasonalHours, type Service } from "@/config/site";
-import { supabase } from "@/lib/supabase";
 
 export type Settings = {
   hours: DayHours[];
@@ -23,19 +22,22 @@ export function mergeSettings(data: Partial<Settings> | null | undefined): Setti
   };
 }
 
-export async function fetchSettings(): Promise<Settings> {
-  if (!supabase) return defaultSettings;
-  const { data, error } = await supabase.from("site_settings").select("data").eq("id", 1).maybeSingle();
-  if (error) throw error;
-  return mergeSettings(data?.data as Partial<Settings>);
-}
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+export const isSupabaseConfigured = !!(SUPABASE_URL && SUPABASE_KEY);
 
-export async function saveSettings(s: Settings) {
-  if (!supabase) throw new Error("Supabase is not connected");
-  const { error } = await supabase
-    .from("site_settings")
-    .upsert({ id: 1, data: s, updated_at: new Date().toISOString() });
-  if (error) throw error;
+/**
+ * Public read of the live settings. Uses a plain HTTP request (no Supabase library),
+ * so the public website stays small; the library is only loaded on /admin.
+ */
+export async function fetchSettings(): Promise<Settings> {
+  if (!isSupabaseConfigured) return defaultSettings;
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/site_settings?id=eq.1&select=data`, {
+    headers: { apikey: SUPABASE_KEY!, Authorization: `Bearer ${SUPABASE_KEY}` },
+  });
+  if (!res.ok) throw new Error(`Settings request failed (${res.status})`);
+  const rows = (await res.json()) as { data?: Partial<Settings> }[];
+  return mergeSettings(rows[0]?.data);
 }
 
 type Ctx = { settings: Settings; reload: () => Promise<void> };
