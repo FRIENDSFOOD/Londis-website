@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MapPin, Phone, Clock } from "lucide-react";
+import { Bike, MapPin, Phone, Clock } from "lucide-react";
 import { site } from "@/config/site";
 import { fmtRange, isOpenNow, todaysHours } from "@/lib/hours";
 
@@ -18,20 +18,23 @@ export default function Hero() {
 
       <div className="container flex min-h-[560px] flex-col justify-center py-20 md:min-h-[660px]">
         <div className="max-w-2xl text-white">
-          <span className="mb-5 inline-flex items-center gap-2 rounded-full bg-brand-bright px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white">
+          <span className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white ring-1 ring-white/30 backdrop-blur">
             <Clock className="h-3.5 w-3.5" />
             {open ? "Open now" : "Open 7 days"} · Today {fmtRange(t.open, t.close, t.closed)}
           </span>
           <h1 className="text-4xl leading-tight sm:text-5xl md:text-6xl">
-            Your Local Supermarket on <span className="text-brand-bright">Bath Lane</span>
+            Your Local Supermarket on Bath Lane
           </h1>
           <p className="mt-6 max-w-xl text-lg text-white/85">
             Fresh groceries, cold drinks, tasty treats and all the everyday bits you need — just around the corner.
             We're proud to serve our neighbours across Leicester with great value and a warm welcome.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <Link to="/#location" className="btn-primary bg-brand-bright text-ink hover:bg-white">
+            <Link to="/#location" className="btn bg-white text-ink hover:bg-brand-light">
               <MapPin className="h-4 w-4" /> Visit Our Store
+            </Link>
+            <Link to="/#delivery" className="btn-outline">
+              <Bike className="h-4 w-4" /> Order Delivery
             </Link>
             <a href={site.phoneHref} className="btn-outline">
               <Phone className="h-4 w-4" /> Call Us

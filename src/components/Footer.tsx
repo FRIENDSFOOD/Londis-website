@@ -24,6 +24,7 @@ export default function Footer() {
             <li><Link to="/#about" className="hover:text-brand-bright">About Us</Link></li>
             <li><Link to="/#products" className="hover:text-brand-bright">Our Products</Link></li>
             <li><Link to="/#services" className="hover:text-brand-bright">Services</Link></li>
+            <li><Link to="/#delivery" className="hover:text-brand-bright">Delivery</Link></li>
             <li><Link to="/careers" className="hover:text-brand-bright">Careers</Link></li>
             <li><Link to="/contact" className="hover:text-brand-bright">Contact Us</Link></li>
             <li><Link to="/privacy" className="hover:text-brand-bright">Privacy &amp; Cookies</Link></li>

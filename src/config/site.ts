@@ -73,6 +73,19 @@ export const site = {
   googleReviewUrl: "#", // TODO: your Google "write a review" link
 
   /**
+   * Delivery partners. TODO: paste the link to YOUR store page on each app
+   * (open your shop in the app/website and copy the address).
+   * While `url` is empty, the button goes to `fallback` (the app's homepage),
+   * or, if there is no fallback, shows "Search Londis Bath Lane in the app".
+   */
+  delivery: [
+    { name: "Deliveroo", url: "", fallback: "https://deliveroo.co.uk/", color: "#00CCBC" },
+    { name: "Just Eat", url: "", fallback: "https://www.just-eat.co.uk/", color: "#FF8000" },
+    { name: "Uber Eats", url: "", fallback: "https://www.ubereats.com/gb", color: "#06C167" },
+    { name: "TheShopz", url: "", fallback: "", color: "#6B4EFF" },
+  ],
+
+  /**
    * Forms: paste a Formspree (https://formspree.io) or similar endpoint URL
    * here to receive contact & job applications by email. While empty, the
    * forms validate and show a success message but do not send anywhere.

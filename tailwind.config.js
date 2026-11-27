@@ -5,12 +5,14 @@ export default {
     container: { center: true, padding: "1.25rem", screens: { "2xl": "1200px" } },
     extend: {
       colors: {
-        // Londis green (sampled from the Bath Lane shop fascia)
+        // Londis green — used ONLY for the "Londis" wordmark
+        londis: "#3BAA3F",
+        // Neutral site palette (charcoal & greys)
         brand: {
-          DEFAULT: "#1F8A3B", // accessible green for buttons & text
-          dark: "#166A2C",
-          light: "#E7F6EA",
-          bright: "#4EC54D", // fascia green, used for the logo & accents
+          DEFAULT: "#1F2328",
+          dark: "#000000",
+          light: "#F1F2F4",
+          bright: "#D9DCE1", // light grey for icons on dark backgrounds
         },
         // warm orange accent
         sun: {

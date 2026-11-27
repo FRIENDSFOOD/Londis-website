@@ -12,7 +12,7 @@ export default function OpeningHours({ className = "" }: { className?: string })
     <div className={`card p-7 ${className}`}>
       <div className="mb-5 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="grid h-12 w-12 place-items-center rounded-xl bg-brand-bright text-white">
+          <div className="grid h-12 w-12 place-items-center rounded-xl bg-ink text-white">
             <Clock className="h-6 w-6" />
           </div>
           <div>

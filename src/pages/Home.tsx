@@ -1,4 +1,5 @@
 import Hero from "@/components/home/Hero";
+import Delivery from "@/components/home/Delivery";
 import Categories from "@/components/home/Categories";
 import Featured from "@/components/home/Featured";
 import Services from "@/components/home/Services";
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <Delivery />
       <Categories />
       <Featured />
       <Services />

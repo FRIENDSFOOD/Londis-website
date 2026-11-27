@@ -9,6 +9,7 @@ const links = [
   { label: "About Us", to: "/#about" },
   { label: "Our Products", to: "/#products" },
   { label: "Services", to: "/#services" },
+  { label: "Delivery", to: "/#delivery" },
   { label: "Careers", to: "/careers" },
   { label: "Location", to: "/#location" },
   { label: "Contact Us", to: "/contact" },
@@ -27,7 +28,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const linkClass = "rounded-full px-3 py-2 text-sm font-medium text-ink/80 transition hover:bg-brand-light hover:text-brand";
+  const linkClass = "rounded-full px-2.5 py-2 text-sm font-medium text-ink/80 transition hover:bg-brand-light hover:text-brand";
 
   return (
     <header className={`sticky top-0 z-40 bg-white/95 backdrop-blur transition-shadow ${scrolled ? "shadow-md" : ""}`}>
