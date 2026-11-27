@@ -17,9 +17,9 @@ export default function Services() {
           <h2 className="text-3xl md:text-4xl">More than just a shop</h2>
           <p className="mt-4 text-white/85">Handy in-store services that save you a trip into town.</p>
         </Reveal>
-        <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-3">
+        <div className="mx-auto flex max-w-5xl flex-wrap justify-center gap-4">
           {services.map((s, i) => (
-            <Reveal key={s.id} delay={i * 80}>
+            <Reveal key={s.id} delay={i * 80} className="w-full md:w-[calc((100%-2rem)/3)]">
               <div className="flex h-full items-center gap-4 rounded-2xl bg-white p-4 text-ink shadow-card">
                 <div className="flex h-20 w-20 shrink-0 items-center justify-center">
                   <ServiceLogo service={s} />

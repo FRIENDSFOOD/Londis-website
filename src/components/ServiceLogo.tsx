@@ -1,9 +1,22 @@
 import { useState } from "react";
+import { Banknote, Coffee, Gift, Package, Receipt, Smartphone, Store, Ticket, type LucideIcon } from "lucide-react";
 import type { Service } from "@/config/site";
+
+/** Icons available for services without a logo (choose in /admin). */
+export const SERVICE_ICONS: Record<string, LucideIcon> = {
+  package: Package,
+  banknote: Banknote,
+  receipt: Receipt,
+  smartphone: Smartphone,
+  ticket: Ticket,
+  coffee: Coffee,
+  gift: Gift,
+  store: Store,
+};
 
 /**
  * Shows the service's logo from /public/logos if the file exists,
- * otherwise a clean text badge with the service name.
+ * otherwise its icon in a dark rounded tile.
  */
 export default function ServiceLogo({ service, className = "" }: { service: Service; className?: string }) {
   const [failed, setFailed] = useState(false);
@@ -18,5 +31,10 @@ export default function ServiceLogo({ service, className = "" }: { service: Serv
       />
     );
   }
-  return <span className="text-center font-display text-sm font-bold leading-tight text-ink">{service.name}</span>;
+  const Icon = SERVICE_ICONS[service.icon ?? ""] ?? Store;
+  return (
+    <span className="grid h-16 w-16 place-items-center rounded-2xl bg-ink text-white" aria-hidden>
+      <Icon className="h-8 w-8" />
+    </span>
+  );
 }

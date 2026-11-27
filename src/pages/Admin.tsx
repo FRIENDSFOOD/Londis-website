@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { defaultSettings, fetchSettings, saveSettings, useSettings, type Settings } from "@/lib/settings";
 import type { SeasonalHours, Service } from "@/config/site";
 import Logo from "@/components/Logo";
+import { SERVICE_ICONS } from "@/components/ServiceLogo";
 
 const todayISO = () => new Date().toISOString().slice(0, 10);
 
@@ -347,7 +348,15 @@ function Editor({ email }: { email: string }) {
                 </div>
               </div>
               <textarea className="input mt-3" rows={2} placeholder="Short description" value={sv.description} onChange={(e) => setService(i, { description: e.target.value })} aria-label="Description" />
-              <input className="input mt-3" placeholder="Logo file name, e.g. paypoint.png (optional)" value={sv.logo ?? ""} onChange={(e) => setService(i, { logo: e.target.value.trim() || undefined })} aria-label="Logo file name" />
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <input className="input" placeholder="Logo file name, e.g. paypoint.png (optional)" value={sv.logo ?? ""} onChange={(e) => setService(i, { logo: e.target.value.trim() || undefined })} aria-label="Logo file name" />
+                <select className="input" value={sv.icon ?? ""} onChange={(e) => setService(i, { icon: e.target.value || undefined })} aria-label="Icon if no logo">
+                  <option value="">Icon if no logo: default</option>
+                  {Object.keys(SERVICE_ICONS).map((k) => (
+                    <option key={k} value={k}>Icon: {k}</option>
+                  ))}
+                </select>
+              </div>
             </div>
           ))}
         </div>

@@ -14,6 +14,8 @@ export type Service = {
   name: string;
   description: string;
   logo?: string;
+  /** Icon shown when there is no logo (see src/components/ServiceLogo.tsx). */
+  icon?: string;
   enabled: boolean;
 };
 
@@ -105,6 +107,20 @@ export const site = {
       name: "The National Lottery",
       description: "Lotto, EuroMillions, Set For Life, Thunderball and scratchcards.",
       logo: "national-lottery.png",
+      enabled: true,
+    },
+    {
+      id: "parcels",
+      name: "Parcel Services",
+      description: "Drop off and collect your parcels while you shop.",
+      icon: "package",
+      enabled: true,
+    },
+    {
+      id: "cashback",
+      name: "Cashback",
+      description: "Get cash back when you pay by debit card — just ask at the till.",
+      icon: "banknote",
       enabled: true,
     },
   ] as Service[],
