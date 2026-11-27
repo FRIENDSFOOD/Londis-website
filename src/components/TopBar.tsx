@@ -1,4 +1,4 @@
-import { CalendarDays, Clock, MapPin, Phone } from "lucide-react";
+import { CalendarDays, Clock, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { site } from "@/config/site";
 import { fmtRange, upcomingSeasonal } from "@/lib/hours";
@@ -28,10 +28,14 @@ export default function TopBar() {
             <MapPin className="h-3.5 w-3.5 text-brand-bright" />
             {site.address.line1}, {site.address.city} {site.address.postcode}
           </span>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
             <a href={site.phoneHref} className="flex items-center gap-1.5 hover:text-brand-bright">
               <Phone className="h-3.5 w-3.5 text-brand-bright" />
               {site.phone}
+            </a>
+            <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-brand-bright">
+              <MessageCircle className="h-3.5 w-3.5 text-brand-bright" />
+              WhatsApp
             </a>
             <span className="flex items-center gap-1.5 font-semibold">
               <Clock className="h-3.5 w-3.5 text-brand-bright" />

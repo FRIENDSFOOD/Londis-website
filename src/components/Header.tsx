@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, MessageCircle, Phone, X } from "lucide-react";
 import Logo from "./Logo";
 import { site } from "@/config/site";
 
@@ -77,6 +77,9 @@ export default function Header() {
             ))}
             <a href={site.phoneHref} className="btn-primary mt-3">
               <Phone className="h-4 w-4" /> Call {site.phone}
+            </a>
+            <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" className="btn mt-3 border-2 border-ink text-ink hover:bg-ink hover:text-white">
+              <MessageCircle className="h-4 w-4" /> WhatsApp {site.whatsapp}
             </a>
           </div>
         </nav>

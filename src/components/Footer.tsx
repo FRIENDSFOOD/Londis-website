@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Phone, ShieldCheck } from "lucide-react";
 import Logo from "./Logo";
 import SocialIcons from "./SocialIcons";
 import { site } from "@/config/site";
@@ -36,15 +36,16 @@ export default function Footer() {
           <ul className="space-y-3 text-sm">
             <li className="flex gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-bright" />{site.address.full}</li>
             <li><a href={site.phoneHref} className="flex gap-2 hover:text-brand-bright"><Phone className="h-4 w-4 text-brand-bright" />{site.phone}</a></li>
+            <li><a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" className="flex gap-2 hover:text-brand-bright"><MessageCircle className="h-4 w-4 text-brand-bright" />WhatsApp {site.whatsapp}</a></li>
             <li><a href={`mailto:${site.email}`} className="flex gap-2 hover:text-brand-bright"><Mail className="h-4 w-4 text-brand-bright" />{site.email}</a></li>
           </ul>
         </div>
       </div>
 
       <div className="border-t border-white/10">
-        <div className="container flex flex-col items-center gap-3 py-6 text-center text-xs md:flex-row md:justify-between md:text-left">
+        <div className="container flex flex-col items-center gap-3 pb-24 pt-6 text-center text-xs lg:flex-row lg:justify-between lg:gap-8 lg:text-left">
           <p>
-            © {site.established < year ? `${site.established}–${year}` : year} {site.companyName} trading as {site.tradingAs}. All rights reserved.
+            © {site.established < year ? `${site.established}–${year}` : year} {site.companyName} trading as {site.tradingAs}. Registered in England &amp; Wales, company no. {site.companyNumber}. All rights reserved.
           </p>
           <p className="flex items-center gap-2 font-medium text-white">
             <ShieldCheck className="h-4 w-4 text-brand-bright" />

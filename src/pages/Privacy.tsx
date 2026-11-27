@@ -12,9 +12,10 @@ export default function Privacy() {
           <div>
             <h2>Who we are</h2>
             <p>
-              This website is operated by {site.companyName}, trading as "{site.tradingAs}", of {site.address.full}.
+              This website is operated by {site.companyName} (registered in England &amp; Wales, company number{" "}
+              {site.companyNumber}), trading as "{site.tradingAs}", of {site.address.full}.
               We are the data controller for any personal information collected through this website. You can contact
-              us at {site.email} or on {site.phone}.
+              us at {site.email}, on {site.phone}, or on WhatsApp at {site.whatsapp}.
             </p>
           </div>
 
@@ -22,6 +23,7 @@ export default function Privacy() {
             <h2>What information we collect</h2>
             <ul className="space-y-1">
               <li>Details you give us through our contact form, such as your name, email address and message.</li>
+              <li>Messages you send us on WhatsApp, which are also handled under WhatsApp's own privacy policy.</li>
               <li>Details you give us when applying for a job, such as your name, contact details, availability and any information you choose to share.</li>
               <li>Basic technical information needed to deliver the website, such as your browser type.</li>
             </ul>

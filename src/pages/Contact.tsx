@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Mail, MapPin, Navigation, Phone } from "lucide-react";
+import { Loader2, Mail, MapPin, MessageCircle, Navigation, Phone } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import OpeningHours from "@/components/OpeningHours";
 import MapEmbed from "@/components/MapEmbed";
@@ -51,6 +51,10 @@ export default function Contact() {
               <a href={site.phoneHref} className="flex gap-4 hover:text-brand">
                 <Phone className="h-6 w-6 shrink-0 text-brand" />
                 <span><span className="block text-xs uppercase text-ink/50">Phone</span><span className="font-semibold">{site.phone}</span></span>
+              </a>
+              <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" className="flex gap-4 hover:text-brand">
+                <MessageCircle className="h-6 w-6 shrink-0 text-brand" />
+                <span><span className="block text-xs uppercase text-ink/50">WhatsApp</span><span className="font-semibold">{site.whatsapp}</span></span>
               </a>
               <a href={`mailto:${site.email}`} className="flex gap-4 hover:text-brand">
                 <Mail className="h-6 w-6 shrink-0 text-brand" />

@@ -1,4 +1,4 @@
-import { Car, MapPin, Navigation, Phone } from "lucide-react";
+import { Car, MapPin, MessageCircle, Navigation, Phone } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import MapEmbed from "@/components/MapEmbed";
 import { directionsUrl, site } from "@/config/site";
@@ -26,6 +26,12 @@ export default function Location() {
             <li className="flex gap-4">
               <Phone className="mt-1 h-6 w-6 shrink-0 text-brand" />
               <a href={site.phoneHref} className="font-semibold hover:text-brand">{site.phone}</a>
+            </li>
+            <li className="flex gap-4">
+              <MessageCircle className="mt-1 h-6 w-6 shrink-0 text-brand" />
+              <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-brand">
+                WhatsApp {site.whatsapp}
+              </a>
             </li>
             <li className="flex gap-4">
               <Car className="mt-1 h-6 w-6 shrink-0 text-brand" />

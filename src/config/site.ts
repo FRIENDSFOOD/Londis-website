@@ -50,9 +50,13 @@ export const site = {
     full: "Londis Supermarket, 105 Bath Lane, Leicester, LE3 5AU",
   },
 
-  // TODO: replace with the real shop phone number and email
-  phone: "0116 000 0000",
-  phoneHref: "tel:+441160000000",
+  companyNumber: "11076994",
+
+  phone: "0116 319 4464",
+  phoneHref: "tel:+441163194464",
+  whatsapp: "07399 799977",
+  whatsappHref: "https://wa.me/447399799977",
+  // TODO: replace with the real shop email
   email: "info@yourdomain.co.uk",
 
   /**
