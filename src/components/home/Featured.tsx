@@ -1,9 +1,9 @@
 import Reveal from "@/components/Reveal";
 
 const items = [
-  { img: "/images/chilled.jpg", title: "Chilled & Fresh", text: "Milk, cheese, yoghurts, meats and ready-to-eat favourites, kept perfectly chilled." },
-  { img: "/images/beer.jpg", title: "Drinks & Off Licence", text: "Ice-cold beers and ciders, quality wines and popular spirits for any occasion." },
-  { img: "/images/aisle-fresh.jpg", title: "Everyday Essentials", text: "Fresh bread, fruit and veg, cupboard staples and soft drinks in one easy aisle." },
+  { img: `${import.meta.env.BASE_URL}images/chilled.jpg`, title: "Chilled & Fresh", text: "Milk, cheese, yoghurts, meats and ready-to-eat favourites, kept perfectly chilled." },
+  { img: `${import.meta.env.BASE_URL}images/beer.jpg`, title: "Drinks & Off Licence", text: "Ice-cold beers and ciders, quality wines and popular spirits for any occasion." },
+  { img: `${import.meta.env.BASE_URL}images/aisle-fresh.jpg`, title: "Everyday Essentials", text: "Fresh bread, fruit and veg, cupboard staples and soft drinks in one easy aisle." },
 ];
 
 export default function Featured() {

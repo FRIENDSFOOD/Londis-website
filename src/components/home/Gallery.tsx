@@ -4,18 +4,18 @@ import Reveal from "@/components/Reveal";
 
 /** Add, remove or reorder store photos here. Files live in /public/images. */
 const photos = [
-  { src: "/images/storefront-side.jpg", alt: "Londis shop windows on Bath Lane", wide: true },
-  { src: "/images/chilled.jpg", alt: "Chilled dairy and fresh food aisle" },
-  { src: "/images/aisle-fresh.jpg", alt: "Bakery, fresh produce and soft drinks aisle" },
-  { src: "/images/coffee.jpg", alt: "Freshly ground coffee to go machine", tall: true },
-  { src: "/images/snacks.jpg", alt: "Snacks and world foods aisle" },
-  { src: "/images/noodles.jpg", alt: "Instant noodles and world foods", tall: true },
-  { src: "/images/frozen.jpg", alt: "Frozen food freezers" },
-  { src: "/images/beer.jpg", alt: "Beers and ciders" },
-  { src: "/images/wine.jpg", alt: "Wine selection", tall: true },
-  { src: "/images/spirits.jpg", alt: "Spirits and off licence" },
-  { src: "/images/soft-drinks.jpg", alt: "Soft drinks" },
-  { src: "/images/water.jpg", alt: "Bottled water" },
+  { src: `${import.meta.env.BASE_URL}images/storefront-side.jpg`, alt: "Londis shop windows on Bath Lane", wide: true },
+  { src: `${import.meta.env.BASE_URL}images/chilled.jpg`, alt: "Chilled dairy and fresh food aisle" },
+  { src: `${import.meta.env.BASE_URL}images/aisle-fresh.jpg`, alt: "Bakery, fresh produce and soft drinks aisle" },
+  { src: `${import.meta.env.BASE_URL}images/coffee.jpg`, alt: "Freshly ground coffee to go machine", tall: true },
+  { src: `${import.meta.env.BASE_URL}images/snacks.jpg`, alt: "Snacks and world foods aisle" },
+  { src: `${import.meta.env.BASE_URL}images/noodles.jpg`, alt: "Instant noodles and world foods", tall: true },
+  { src: `${import.meta.env.BASE_URL}images/frozen.jpg`, alt: "Frozen food freezers" },
+  { src: `${import.meta.env.BASE_URL}images/beer.jpg`, alt: "Beers and ciders" },
+  { src: `${import.meta.env.BASE_URL}images/wine.jpg`, alt: "Wine selection", tall: true },
+  { src: `${import.meta.env.BASE_URL}images/spirits.jpg`, alt: "Spirits and off licence" },
+  { src: `${import.meta.env.BASE_URL}images/soft-drinks.jpg`, alt: "Soft drinks" },
+  { src: `${import.meta.env.BASE_URL}images/water.jpg`, alt: "Bottled water" },
 ];
 
 export default function Gallery() {

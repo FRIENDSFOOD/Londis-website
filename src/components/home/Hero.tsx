@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { MapPin, Phone, Clock } from "lucide-react";
 import { site } from "@/config/site";
 import { fmtRange, isOpenNow, todaysHours } from "@/lib/hours";
@@ -8,7 +9,7 @@ export default function Hero() {
   return (
     <section id="home" className="relative isolate overflow-hidden">
       <img
-        src="/images/storefront.jpg"
+        src={`${import.meta.env.BASE_URL}images/storefront.jpg`}
         alt="The Londis Supermarket shop front on Bath Lane, Leicester"
         className="absolute inset-0 -z-20 h-full w-full object-cover object-[center_80%]"
         fetchPriority="high"
@@ -29,9 +30,9 @@ export default function Hero() {
             We're proud to serve our neighbours across Leicester with great value and a warm welcome.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <a href="#location" className="btn-primary bg-brand-bright text-ink hover:bg-white">
+            <Link to="/#location" className="btn-primary bg-brand-bright text-ink hover:bg-white">
               <MapPin className="h-4 w-4" /> Visit Our Store
-            </a>
+            </Link>
             <a href={site.phoneHref} className="btn-outline">
               <Phone className="h-4 w-4" /> Call Us
             </a>
