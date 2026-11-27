@@ -1,11 +1,12 @@
 import { CalendarDays, Clock } from "lucide-react";
-import { site } from "@/config/site";
 import { fmtRange, isOpenNow, todayName, upcomingSeasonal } from "@/lib/hours";
+import { useSettings } from "@/lib/settings";
 
 export default function OpeningHours({ className = "" }: { className?: string }) {
   const today = todayName();
-  const open = isOpenNow();
-  const seasonal = upcomingSeasonal();
+  const { settings } = useSettings();
+  const open = isOpenNow(settings.hours, settings.seasonalHours);
+  const seasonal = upcomingSeasonal(settings.seasonalHours);
   const todaySeasonal = seasonal.find((s) => s.isToday);
 
   return (
@@ -30,14 +31,12 @@ export default function OpeningHours({ className = "" }: { className?: string })
       </div>
 
       <ul className="divide-y divide-gray-100">
-        {site.hours.map((h) => {
+        {settings.hours.map((h) => {
           const isToday = h.day === today;
           const time =
             isToday && todaySeasonal
               ? fmtRange(todaySeasonal.open, todaySeasonal.close, todaySeasonal.closed)
-              : "closed" in h
-              ? "Closed"
-              : fmtRange(h.open, h.close);
+              : fmtRange(h.open, h.close, h.closed);
           return (
             <li key={h.day} className={`flex justify-between py-2.5 text-sm ${isToday ? "font-semibold text-brand" : ""}`}>
               <span>

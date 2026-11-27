@@ -7,6 +7,7 @@ import Careers from "@/pages/Careers";
 import Contact from "@/pages/Contact";
 import Privacy from "@/pages/Privacy";
 import NotFound from "@/pages/NotFound";
+import Admin from "@/pages/Admin";
 
 function ScrollManager() {
   const { pathname, hash } = useLocation();
@@ -29,6 +30,7 @@ export default function App() {
       <ScrollManager />
       <Toaster position="top-center" richColors />
       <Routes>
+        <Route path="/admin" element={<Admin />} />
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/careers" element={<Careers />} />

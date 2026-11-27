@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import { Bike, MapPin, Phone, Clock } from "lucide-react";
 import { site } from "@/config/site";
 import { fmtRange, isOpenNow, todaysHours } from "@/lib/hours";
+import { useSettings } from "@/lib/settings";
 
 export default function Hero() {
-  const open = isOpenNow();
-  const t = todaysHours();
+  const { settings } = useSettings();
+  const open = isOpenNow(settings.hours, settings.seasonalHours);
+  const t = todaysHours(settings.hours, settings.seasonalHours);
   return (
     <section id="home" className="relative isolate overflow-hidden">
       <img

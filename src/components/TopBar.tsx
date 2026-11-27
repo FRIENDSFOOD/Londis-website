@@ -2,13 +2,14 @@ import { CalendarDays, Clock, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { site } from "@/config/site";
 import { fmtRange, upcomingSeasonal } from "@/lib/hours";
+import { useSettings } from "@/lib/settings";
 
 export default function TopBar() {
   // Show a notice for seasonal hours in the next 14 days
-  const notice = upcomingSeasonal().find((s) => {
-    const days = (new Date((s.date ?? s.from)!).getTime() - Date.now()) / 86400000;
-    return s.isToday || days <= 14;
-  });
+  const { settings } = useSettings();
+  const notice = upcomingSeasonal(settings.seasonalHours).find(
+    (s) => s.isToday || (s.start.getTime() - Date.now()) / 86400000 <= 14
+  );
 
   return (
     <>

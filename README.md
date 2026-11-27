@@ -49,6 +49,33 @@ A disclaimer under the gallery says prices/promotions shown may differ from thos
 - Featured cards: `chilled.jpg`, `beer.jpg`, `aisle-fresh.jpg` (`Featured.tsx`)
 - Gallery: list of photos at the top of `src/components/home/Gallery.tsx` — add or remove lines there.
 
+## Admin area (Supabase) — edit hours & services without code
+
+The site has a private page at **/admin** where you can change weekly opening hours,
+seasonal/holiday hours and in-store services. Changes go live instantly.
+
+One-time setup (about 10 minutes):
+
+1. Create a free account and project at https://supabase.com.
+2. In the project: **SQL Editor → New query**, paste everything from `supabase/schema.sql`, press **Run**.
+3. Still in SQL Editor, add your login email as an admin:
+   ```sql
+   insert into public.admins (email) values ('you@yourshop.co.uk');
+   ```
+4. **Authentication → Users → Add user**: create a user with that same email and a strong password.
+5. **Authentication → Sign In / Providers**: turn **off** "Allow new users to sign up" (so only you can log in).
+6. **Project Settings → API**: copy the *Project URL* and the *anon public* key.
+7. Copy `.env.example` to `.env` and paste them in. On Netlify/Vercel, add the same two
+   values under the site's *Environment variables* instead.
+8. Restart `npm run dev` (or redeploy) and go to `/admin`.
+
+Until Supabase is connected, the site uses the default hours and services in `src/config/site.ts`.
+
+## Service logos
+
+Put the official PayPoint, Payzone and National Lottery logo files in `public/logos/`
+(see `public/logos/README.md` for the file names). Until then the service names show as text.
+
 ## Make the forms send emails
 
 The Contact and Careers forms validate and show a success message, but don't send anywhere until you

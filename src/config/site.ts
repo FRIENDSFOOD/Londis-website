@@ -6,7 +6,16 @@
  * ============================================================
  */
 
-export type DayHours = { day: string; open: string; close: string } | { day: string; closed: true };
+export type DayHours = { day: string; open: string; close: string; closed?: boolean };
+
+/** An in-store service. `logo` is a file in /public/logos (optional). */
+export type Service = {
+  id: string;
+  name: string;
+  description: string;
+  logo?: string;
+  enabled: boolean;
+};
 
 /**
  * Seasonal / holiday hours.
@@ -44,6 +53,10 @@ export const site = {
   phoneHref: "tel:+441160000000",
   email: "info@yourdomain.co.uk",
 
+  /**
+   * DEFAULT hours & services. Once Supabase is connected, the live values are
+   * edited at /admin and these are only used as a fallback.
+   */
   /** Regular weekly opening hours (24h clock). */
   hours: [
     { day: "Monday", open: "07:00", close: "23:00" },
@@ -63,6 +76,31 @@ export const site = {
     { name: "New Year's Eve", date: "2026-12-31", open: "07:00", close: "23:00" },
     { name: "New Year's Day", date: "2027-01-01", open: "09:00", close: "21:00" },
   ] as SeasonalHours[],
+
+  /** In-store services (default list — edit live at /admin). */
+  services: [
+    {
+      id: "paypoint",
+      name: "PayPoint",
+      description: "Pay household bills, top up gas & electric keys and cards, and mobile top-ups.",
+      logo: "paypoint.png",
+      enabled: true,
+    },
+    {
+      id: "payzone",
+      name: "Payzone",
+      description: "Bill payments, energy top-ups, mobile top-ups and more.",
+      logo: "payzone.png",
+      enabled: true,
+    },
+    {
+      id: "lottery",
+      name: "The National Lottery",
+      description: "Lotto, EuroMillions, Set For Life, Thunderball and scratchcards.",
+      logo: "national-lottery.png",
+      enabled: true,
+    },
+  ] as Service[],
 
   // TODO: paste your real links (leave "" to hide an icon)
   social: {

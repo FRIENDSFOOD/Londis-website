@@ -1,8 +1,8 @@
-import { site, type SeasonalHours } from "@/config/site";
+import type { DayHours, SeasonalHours } from "@/config/site";
 
-const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+export const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-/** "07:00" -> "7:00am" style is avoided on purpose: we show the 24h times as written. */
+/** Shows 24h times as written, e.g. "07:00 – 23:00". */
 export const fmtRange = (open?: string, close?: string, closed?: boolean) =>
   closed || !open || !close ? "Closed" : `${open} – ${close}`;
 
@@ -12,25 +12,21 @@ const toDate = (s: string) => {
 };
 const startOfDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
 
-function range(s: SeasonalHours) {
-  const from = toDate((s.date ?? s.from)!);
-  const to = toDate((s.date ?? s.to ?? s.from)!);
-  return { from, to };
-}
+export type UpcomingSeasonal = SeasonalHours & { label: string; isToday: boolean; start: Date };
 
 /** Seasonal entries that are active today or coming up soon, soonest first. */
-export function upcomingSeasonal(now = new Date()): (SeasonalHours & { label: string; isToday: boolean })[] {
+export function upcomingSeasonal(list: SeasonalHours[], now = new Date()): UpcomingSeasonal[] {
   const today = startOfDay(now);
-  return site.seasonalHours
-    .filter((s) => s.date || s.from)
+  return list
+    .filter((s) => s.name && (s.date || s.from))
     .map((s) => {
-      const { from, to } = range(s);
-      const lead = s.showFromDaysBefore ?? 30;
+      const from = toDate((s.date || s.from)!);
+      const to = toDate((s.date || s.to || s.from)!);
       const showFrom = new Date(from);
-      showFrom.setDate(showFrom.getDate() - lead);
+      showFrom.setDate(showFrom.getDate() - (s.showFromDaysBefore ?? 30));
       return { s, from, to, showFrom };
     })
-    .filter(({ to, showFrom }) => today <= to && today >= showFrom)
+    .filter(({ from, to, showFrom }) => !isNaN(+from) && !isNaN(+to) && today <= to && today >= showFrom)
     .sort((a, b) => +a.from - +b.from)
     .map(({ s, from, to }) => {
       const opts: Intl.DateTimeFormatOptions = { weekday: "short", day: "numeric", month: "short" };
@@ -38,22 +34,22 @@ export function upcomingSeasonal(now = new Date()): (SeasonalHours & { label: st
         +from === +to
           ? from.toLocaleDateString("en-GB", opts)
           : `${from.toLocaleDateString("en-GB", opts)} – ${to.toLocaleDateString("en-GB", opts)}`;
-      return { ...s, label, isToday: today >= from && today <= to };
+      return { ...s, label, start: from, isToday: today >= from && today <= to };
     });
 }
 
 /** Today's hours, taking seasonal overrides into account. */
-export function todaysHours(now = new Date()) {
-  const seasonal = upcomingSeasonal(now).find((s) => s.isToday);
-  if (seasonal) return { open: seasonal.open, close: seasonal.close, closed: !!seasonal.closed, seasonal: seasonal.name };
-  const reg = site.hours.find((h) => h.day === DAYS[now.getDay()]);
-  if (!reg || "closed" in reg) return { closed: true as const };
+export function todaysHours(hours: DayHours[], seasonal: SeasonalHours[], now = new Date()) {
+  const s = upcomingSeasonal(seasonal, now).find((x) => x.isToday);
+  if (s) return { open: s.open, close: s.close, closed: !!s.closed, seasonal: s.name };
+  const reg = hours.find((h) => h.day === DAYS[now.getDay()]);
+  if (!reg || reg.closed) return { closed: true as const };
   return { open: reg.open, close: reg.close, closed: false };
 }
 
 /** Is the shop open right now? */
-export function isOpenNow(now = new Date()) {
-  const t = todaysHours(now);
+export function isOpenNow(hours: DayHours[], seasonal: SeasonalHours[], now = new Date()) {
+  const t = todaysHours(hours, seasonal, now);
   if (t.closed || !t.open || !t.close) return false;
   const mins = now.getHours() * 60 + now.getMinutes();
   const [oh, om] = t.open.split(":").map(Number);

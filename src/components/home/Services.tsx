@@ -1,17 +1,12 @@
-import { Banknote, Coffee, Package, Receipt, Smartphone, Ticket } from "lucide-react";
 import Reveal from "@/components/Reveal";
-
-// TODO: remove any service the store doesn't offer
-const services = [
-  { Icon: Coffee, title: "Coffee To Go", text: "Freshly ground, 100% arabica coffee — ready in moments." },
-  { Icon: Receipt, title: "Bill Payments", text: "Pay utility bills and top up gas & electric keys." },
-  { Icon: Ticket, title: "National Lottery", text: "Lotto, EuroMillions, Thunderball and scratchcards." },
-  { Icon: Smartphone, title: "Mobile Top-ups", text: "Quick top-ups for all major UK networks." },
-  { Icon: Package, title: "Parcel Services", text: "Drop off and collect parcels on your schedule." },
-  { Icon: Banknote, title: "Cash Machine", text: "Convenient cash withdrawals when you need them." },
-];
+import ServiceLogo from "@/components/ServiceLogo";
+import { useSettings } from "@/lib/settings";
 
 export default function Services() {
+  const { settings } = useSettings();
+  const services = settings.services.filter((s) => s.enabled);
+  if (!services.length) return null;
+
   return (
     <section id="services" className="section bg-brand text-white">
       <div className="container">
@@ -22,22 +17,22 @@ export default function Services() {
           <h2 className="text-3xl md:text-4xl">More than just a shop</h2>
           <p className="mt-4 text-white/85">Handy in-store services that save you a trip into town.</p>
         </Reveal>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map(({ Icon, title, text }, i) => (
-            <Reveal key={title} delay={i * 70}>
-              <div className="flex h-full gap-4 rounded-2xl bg-white/10 p-6 ring-1 ring-white/15 transition hover:bg-white/15">
-                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-white text-brand">
-                  <Icon className="h-6 w-6" />
+        <div className="mx-auto grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((s, i) => (
+            <Reveal key={s.id} delay={i * 80}>
+              <div className="flex h-full flex-col overflow-hidden rounded-2xl bg-white text-ink shadow-card">
+                <div className="grid h-32 place-items-center border-b border-gray-100 bg-white p-6">
+                  <ServiceLogo service={s} />
                 </div>
-                <div>
-                  <h3 className="text-lg">{title}</h3>
-                  <p className="mt-1 text-sm text-white/85">{text}</p>
+                <div className="p-6">
+                  <h3 className="text-lg">{s.name}</h3>
+                  <p className="mt-1 text-sm text-ink/70">{s.description}</p>
                 </div>
               </div>
             </Reveal>
           ))}
         </div>
-        <p className="mt-8 text-center text-sm text-white/75">Service availability may vary — please ask in store.</p>
+        <p className="mt-8 text-center text-sm text-white/75">Ask at the till — our team is happy to help.</p>
       </div>
     </section>
   );
