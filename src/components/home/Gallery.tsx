@@ -1,21 +1,22 @@
 import { useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Info, X } from "lucide-react";
 import Reveal from "@/components/Reveal";
+import Photo from "@/components/Photo";
 
 /** Add, remove or reorder store photos here. Files live in /public/images. */
 const photos = [
-  { src: `${import.meta.env.BASE_URL}images/storefront-side.jpg`, alt: "Londis shop windows on Bath Lane", wide: true },
-  { src: `${import.meta.env.BASE_URL}images/chilled.jpg`, alt: "Chilled dairy and fresh food aisle" },
-  { src: `${import.meta.env.BASE_URL}images/aisle-fresh.jpg`, alt: "Bakery, fresh produce and soft drinks aisle" },
-  { src: `${import.meta.env.BASE_URL}images/coffee.jpg`, alt: "Freshly ground coffee to go machine", tall: true },
-  { src: `${import.meta.env.BASE_URL}images/snacks.jpg`, alt: "Snacks and world foods aisle" },
-  { src: `${import.meta.env.BASE_URL}images/noodles.jpg`, alt: "Instant noodles and world foods", tall: true },
-  { src: `${import.meta.env.BASE_URL}images/frozen.jpg`, alt: "Frozen food freezers" },
-  { src: `${import.meta.env.BASE_URL}images/beer.jpg`, alt: "Beers and ciders" },
-  { src: `${import.meta.env.BASE_URL}images/wine.jpg`, alt: "Wine selection", tall: true },
-  { src: `${import.meta.env.BASE_URL}images/spirits.jpg`, alt: "Spirits and off licence" },
-  { src: `${import.meta.env.BASE_URL}images/soft-drinks.jpg`, alt: "Soft drinks" },
-  { src: `${import.meta.env.BASE_URL}images/water.jpg`, alt: "Bottled water" },
+  { src: "storefront-side", alt: "Londis shop windows on Bath Lane", wide: true },
+  { src: "chilled", alt: "Chilled dairy and fresh food aisle" },
+  { src: "aisle-fresh", alt: "Bakery, fresh produce and soft drinks aisle" },
+  { src: "coffee", alt: "Freshly ground coffee to go machine", tall: true },
+  { src: "snacks", alt: "Snacks and world foods aisle" },
+  { src: "noodles", alt: "Instant noodles and world foods", tall: true },
+  { src: "frozen", alt: "Frozen food freezers" },
+  { src: "beer", alt: "Beers and ciders" },
+  { src: "wine", alt: "Wine selection", tall: true },
+  { src: "spirits", alt: "Spirits and off licence" },
+  { src: "soft-drinks", alt: "Soft drinks" },
+  { src: "water", alt: "Bottled water" },
 ];
 
 export default function Gallery() {
@@ -60,7 +61,7 @@ export default function Gallery() {
               } ${p.tall ? "row-span-2" : ""}`}
               aria-label={`View photo: ${p.alt}`}
             >
-              <img src={p.src} alt={p.alt} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+              <Photo name={p.src} alt={p.alt} sizes="(min-width: 768px) 25vw, 50vw" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
               <span className="absolute inset-0 bg-ink/0 transition group-hover:bg-ink/10" />
             </button>
           ))}
@@ -85,7 +86,7 @@ export default function Gallery() {
             <ChevronLeft />
           </button>
           <figure className="max-h-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
-            <img src={photos[index].src} alt={photos[index].alt} className="max-h-[80vh] w-auto rounded-xl object-contain" />
+            <img src={`${import.meta.env.BASE_URL}images/${photos[index].src}.jpg`} alt={photos[index].alt} className="max-h-[80vh] w-auto rounded-xl object-contain" />
             <figcaption className="mt-3 text-center text-sm text-white/80">
               {photos[index].alt} · {index + 1} / {photos.length}
             </figcaption>

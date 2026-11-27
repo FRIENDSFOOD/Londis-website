@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Photo from "@/components/Photo";
 import { Bike, MapPin, Phone, Clock } from "lucide-react";
 import { site } from "@/config/site";
 import { fmtRange, isOpenNow, todaysHours } from "@/lib/hours";
@@ -10,11 +11,13 @@ export default function Hero() {
   const t = todaysHours(settings.hours, settings.seasonalHours);
   return (
     <section id="home" className="relative isolate overflow-hidden">
-      <img
-        src={`${import.meta.env.BASE_URL}images/storefront.jpg`}
+      <Photo
+        name="storefront"
+        sizes="100vw"
+        loading="eager"
+        fetchPriority="high"
         alt="The Londis Supermarket shop front on Bath Lane, Leicester"
         className="absolute inset-0 -z-20 h-full w-full object-cover object-[center_80%]"
-        fetchPriority="high"
       />
       <div className="absolute inset-0 -z-10 bg-ink/75 md:bg-transparent md:bg-gradient-to-r md:from-ink/90 md:via-ink/65 md:to-ink/10" />
 
