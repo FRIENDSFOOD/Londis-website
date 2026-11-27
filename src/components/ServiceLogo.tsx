@@ -12,7 +12,7 @@ export default function ServiceLogo({ service, className = "" }: { service: Serv
       <img
         src={`${import.meta.env.BASE_URL}logos/${service.logo}`}
         alt={`${service.name} logo`}
-        className={`max-h-full max-w-full object-contain ${className}`}
+        className={`h-full w-full object-contain ${className}`}
         onError={() => setFailed(true)}
         loading="lazy"
       />

@@ -12,7 +12,7 @@ export default function About() {
           <h2 className="text-3xl md:text-4xl">A friendly, family-run shop at the heart of the community</h2>
           <div className="mt-6 space-y-4 text-ink/75">
             <p>
-              Londis on Bath Lane is run by a local family who know our customers by name. We opened our doors to give
+              Londis on Bath Lane is run by a local family who know our customers by name. We opened our doors in {site.established} to give
               the neighbourhood a reliable, welcoming place to pick up fresh food and daily essentials without the
               hassle of a big supermarket trip.
             </p>

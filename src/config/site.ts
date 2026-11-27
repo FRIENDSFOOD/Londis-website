@@ -40,6 +40,8 @@ export const site = {
   storeName: "Londis Supermarket",
   companyName: "FRIENDS FOOD RETAIL LIMITED",
   tradingAs: "Londis",
+  /** Year the shop opened — the footer shows © 2018–<current year>. */
+  established: 2018,
 
   address: {
     line1: "105 Bath Lane",

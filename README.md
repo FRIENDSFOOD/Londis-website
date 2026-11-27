@@ -74,7 +74,7 @@ Until Supabase is connected, the site uses the default hours and services in `sr
 ## Service logos
 
 Put the official PayPoint, Payzone and National Lottery logo files in `public/logos/`
-(see `public/logos/README.md` for the file names). Until then the service names show as text.
+as `paypoint.png`, `payzone.png` and `national-lottery.png`. If a file is missing, the service name shows as text instead.
 
 ## Make the forms send emails
 

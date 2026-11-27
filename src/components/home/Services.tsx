@@ -21,7 +21,7 @@ export default function Services() {
           {services.map((s, i) => (
             <Reveal key={s.id} delay={i * 80}>
               <div className="flex h-full flex-col overflow-hidden rounded-2xl bg-white text-ink shadow-card">
-                <div className="grid h-32 place-items-center border-b border-gray-100 bg-white p-6">
+                <div className="flex h-40 items-center justify-center border-b border-gray-100 bg-white p-5">
                   <ServiceLogo service={s} />
                 </div>
                 <div className="p-6">

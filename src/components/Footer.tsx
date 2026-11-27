@@ -44,7 +44,7 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="container flex flex-col items-center gap-3 py-6 text-center text-xs md:flex-row md:justify-between md:text-left">
           <p>
-            © {year} {site.companyName} trading as {site.tradingAs}. All rights reserved.
+            © {site.established < year ? `${site.established}–${year}` : year} {site.companyName} trading as {site.tradingAs}. All rights reserved.
           </p>
           <p className="flex items-center gap-2 font-medium text-white">
             <ShieldCheck className="h-4 w-4 text-brand-bright" />
