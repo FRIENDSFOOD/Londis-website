@@ -1,11 +1,11 @@
 import { validateSettings } from "../../../src/lib/validateSettings";
-import { requireAdmin } from "../../_lib/access";
-import { json, SETTINGS_KEY, type Env, type StoredSettings } from "../../_lib/env";
+import { requireAdmin } from "../../lib/access";
+import { json, SETTINGS_KEY, type Handler, type StoredSettings } from "../../lib/env";
 
 const MAX_BODY = 64 * 1024;
 
 /** Admin: read the saved settings plus who last changed them. */
-export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
+export const onRequestGet: Handler = async ({ request, env }) => {
   const auth = await requireAdmin(request, env);
   if (!auth.ok) return json({ error: auth.error }, auth.status);
   const stored = await env.SETTINGS.get<StoredSettings>(SETTINGS_KEY, "json");
@@ -13,7 +13,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
 };
 
 /** Admin: save new settings (validated strictly on the server). */
-export const onRequestPut: PagesFunction<Env> = async ({ request, env }) => {
+export const onRequestPut: Handler = async ({ request, env }) => {
   const auth = await requireAdmin(request, env);
   if (!auth.ok) return json({ error: auth.error }, auth.status);
 

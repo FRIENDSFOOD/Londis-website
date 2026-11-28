@@ -51,25 +51,26 @@ A disclaimer under the gallery says prices/promotions shown may differ from thos
 
 ## Admin area (Cloudflare) — edit hours & services without code
 
-The site is hosted on **Cloudflare Pages**. A private page at **/admin** lets staff change weekly hours,
+The site is hosted on **Cloudflare Workers** (static assets + a small Worker for the API), Worker name `londis-website`. A private page at **/admin** lets staff change weekly hours,
 seasonal/holiday hours and services; changes appear on the site within a minute.
 
 How it works:
 
 - **Login:** Cloudflare Access protects `/admin` and `/api/admin/*` — staff sign in with a one-time code
   sent to their email. No passwords are stored in this project.
-- **Saving:** `functions/api/admin/settings.ts` re-checks the Cloudflare Access login and the admin email
+- **Saving:** `worker/api/admin/settings.ts` re-checks the Cloudflare Access login and the admin email
   list on every save, validates the data strictly (`src/lib/validateSettings.ts`), and stores it in the
   `londis-settings` KV storage with who saved it and when.
-- **Reading:** the public site reads `functions/api/settings.ts`; if that is unavailable it uses the defaults
+- **Reading:** the public site reads `worker/api/settings.ts`; if that is unavailable it uses the defaults
   in `src/config/site.ts`.
 
 One-time setup:
 
-1. **Cloudflare dashboard → Workers & Pages → Create → Pages → Connect to Git** → choose
-   `FRIENDSFOOD/Londis-website`. Framework preset: *None*; build command `npm run build`; output `dist`.
-   (`wrangler.toml` already links the `londis-settings` storage.)
-2. **Custom domain:** in the Pages project → *Custom domains* → add `londis.friendsfood.co.uk`.
+1. **Cloudflare dashboard → Workers & Pages → Create → Import a repository** → `FRIENDSFOOD/Londis-website`.
+   Build command `npm run build`; deploy command `npx wrangler deploy` (the default). `wrangler.toml`
+   sets everything else (name `londis-website`, the `dist` assets, the `londis-settings` storage).
+2. **Custom domain:** in the Worker → *Settings → Domains & Routes → Add → Custom domain* →
+   `londis.friendsfood.co.uk`.
 3. **Zero Trust → Access → Applications → Add → Self-hosted**: domain `londis.friendsfood.co.uk`,
    paths `/admin` and `/api/admin`; policy *Allow* → *Emails* → the admin email(s); login method
    *One-time PIN*. Copy the **Application Audience (AUD) Tag**.
@@ -78,7 +79,7 @@ One-time setup:
 
 Until steps 3–4 are done, saving is blocked (the site still works with the default hours).
 
-Local testing with the Cloudflare functions: `npm run dev:cf` (http://localhost:8788).
+Local testing with the Worker: `npm run dev:cf` (http://localhost:8787).
 
 ## Service logos
 
@@ -106,7 +107,7 @@ src/
   lib/                  ← opening-hours logic (+ tests), live settings, forms
 public/images/          ← store photos (2000px JPG + 800/1600px WebP)
 public/logos/           ← PayPoint, Payzone, Lottery logos
-functions/              ← Cloudflare functions: public settings + protected admin save
+worker/                 ← Cloudflare Worker: public settings + protected admin save
 wrangler.toml           ← Cloudflare config (storage binding, admin login settings)
 ```
 
@@ -116,7 +117,7 @@ wrangler.toml           ← Cloudflare config (storage binding, admin login sett
 | --- | --- |
 | `npm run dev` | Run the site locally at http://localhost:8080 |
 | `npm test` | Run the automatic tests (opening hours, admin login checks, data validation) |
-| `npm run dev:cf` | Run the site with the Cloudflare functions locally |
+| `npm run dev:cf` | Run the site with the Cloudflare Worker locally |
 | `npm run build` | Build the site for publishing (into `dist/`) |
 | `npm run format` | Tidy up code formatting |
 
@@ -128,5 +129,5 @@ Every push to GitHub runs the tests and a build automatically (see the **Actions
 npm run build      # creates the dist/ folder
 ```
 
-- **Cloudflare Pages** (current host): see "Admin area (Cloudflare)" above. Every push to `main` redeploys.
+- **Cloudflare Workers** (current host): see "Admin area (Cloudflare)" above. Every push to `main` redeploys.
 - Security headers and caching are set in `public/_headers`.

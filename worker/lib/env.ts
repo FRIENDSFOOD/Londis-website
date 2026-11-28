@@ -1,5 +1,7 @@
-/** Bindings and settings available to the Cloudflare functions (set in wrangler.toml). */
+/** Bindings and settings available to the Worker (set in wrangler.toml). */
 export interface Env {
+  /** The built website files (dist/), served by Cloudflare. */
+  ASSETS: Fetcher;
   /** KV storage holding the live settings (key: "settings"). */
   SETTINGS: KVNamespace;
   /** Cloudflare Access team domain, e.g. "friendsfood.cloudflareaccess.com". */
@@ -23,3 +25,6 @@ export const json = (body: unknown, status = 200, extra: Record<string, string> 
     status,
     headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...extra },
   });
+
+/** A request handler for one API route. */
+export type Handler = (ctx: { request: Request; env: Env }) => Promise<Response>;

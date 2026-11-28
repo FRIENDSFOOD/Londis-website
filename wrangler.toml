@@ -1,8 +1,16 @@
-# Cloudflare Pages configuration for the Londis Bath Lane website.
-# Cloudflare reads this file on every deploy (it replaces the dashboard settings for these values).
-name = "londis-bath-lane"
-pages_build_output_dir = "dist"
+# Cloudflare Worker configuration for the Londis Bath Lane website.
+# Cloudflare reads this file on every deploy from GitHub.
+# The name must match the Worker in the Cloudflare dashboard.
+name = "londis-website"
+main = "worker/index.ts"
 compatibility_date = "2026-11-01"
+
+# The built website (npm run build → dist/). /api/* goes to the Worker code first.
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+run_worker_first = ["/api/*"]
 
 # Storage for the live hours, seasonal hours and services (edited at /admin)
 [[kv_namespaces]]
@@ -14,3 +22,6 @@ id = "504a425d13fe4618a82d9952b65a2d87"
 ACCESS_TEAM_DOMAIN = ""   # e.g. "friendsfood.cloudflareaccess.com" (Zero Trust › Settings › Team domain)
 ACCESS_AUD = ""           # Access application › "Application Audience (AUD) Tag"
 ADMIN_EMAILS = ""         # comma-separated, e.g. "owner@example.com"
+
+[observability]
+enabled = true
