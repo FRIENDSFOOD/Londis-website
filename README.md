@@ -49,27 +49,36 @@ A disclaimer under the gallery says prices/promotions shown may differ from thos
 - Featured cards: `chilled.jpg`, `beer.jpg`, `aisle-fresh.jpg` (`Featured.tsx`)
 - Gallery: list of photos at the top of `src/components/home/Gallery.tsx` — add or remove lines there.
 
-## Admin area (Supabase) — edit hours & services without code
+## Admin area (Cloudflare) — edit hours & services without code
 
-The site has a private page at **/admin** where you can change weekly opening hours,
-seasonal/holiday hours and in-store services. Changes go live instantly.
+The site is hosted on **Cloudflare Pages**. A private page at **/admin** lets staff change weekly hours,
+seasonal/holiday hours and services; changes appear on the site within a minute.
 
-One-time setup (about 10 minutes):
+How it works:
 
-1. Create a free account and project at https://supabase.com.
-2. In the project: **SQL Editor → New query**, paste everything from `supabase/schema.sql`, press **Run**.
-3. Still in SQL Editor, add your login email as an admin:
-   ```sql
-   insert into public.admins (email) values ('you@yourshop.co.uk');
-   ```
-4. **Authentication → Users → Add user**: create a user with that same email and a strong password.
-5. **Authentication → Sign In / Providers**: turn **off** "Allow new users to sign up" (so only you can log in).
-6. **Project Settings → API**: copy the *Project URL* and the *anon public* key.
-7. Copy `.env.example` to `.env` and paste them in. On Netlify/Vercel, add the same two
-   values under the site's *Environment variables* instead.
-8. Restart `npm run dev` (or redeploy) and go to `/admin`.
+- **Login:** Cloudflare Access protects `/admin` and `/api/admin/*` — staff sign in with a one-time code
+  sent to their email. No passwords are stored in this project.
+- **Saving:** `functions/api/admin/settings.ts` re-checks the Cloudflare Access login and the admin email
+  list on every save, validates the data strictly (`src/lib/validateSettings.ts`), and stores it in the
+  `londis-settings` KV storage with who saved it and when.
+- **Reading:** the public site reads `functions/api/settings.ts`; if that is unavailable it uses the defaults
+  in `src/config/site.ts`.
 
-Until Supabase is connected, the site uses the default hours and services in `src/config/site.ts`.
+One-time setup:
+
+1. **Cloudflare dashboard → Workers & Pages → Create → Pages → Connect to Git** → choose
+   `FRIENDSFOOD/Londis-website`. Framework preset: *None*; build command `npm run build`; output `dist`.
+   (`wrangler.toml` already links the `londis-settings` storage.)
+2. **Custom domain:** in the Pages project → *Custom domains* → add `londis.friendsfood.co.uk`.
+3. **Zero Trust → Access → Applications → Add → Self-hosted**: domain `londis.friendsfood.co.uk`,
+   paths `/admin` and `/api/admin`; policy *Allow* → *Emails* → the admin email(s); login method
+   *One-time PIN*. Copy the **Application Audience (AUD) Tag**.
+4. Put the AUD tag, your team domain (Zero Trust → Settings, e.g. `friendsfood.cloudflareaccess.com`) and the
+   admin email(s) into the `[vars]` section of `wrangler.toml`, commit, and Cloudflare redeploys.
+
+Until steps 3–4 are done, saving is blocked (the site still works with the default hours).
+
+Local testing with the Cloudflare functions: `npm run dev:cf` (http://localhost:8788).
 
 ## Service logos
 
@@ -97,7 +106,8 @@ src/
   lib/                  ← opening-hours logic (+ tests), live settings, forms
 public/images/          ← store photos (2000px JPG + 800/1600px WebP)
 public/logos/           ← PayPoint, Payzone, Lottery logos
-supabase/schema.sql     ← database setup for /admin
+functions/              ← Cloudflare functions: public settings + protected admin save
+wrangler.toml           ← Cloudflare config (storage binding, admin login settings)
 ```
 
 ## Useful commands
@@ -105,7 +115,8 @@ supabase/schema.sql     ← database setup for /admin
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Run the site locally at http://localhost:8080 |
-| `npm test` | Run the automatic tests (opening hours, seasonal hours) |
+| `npm test` | Run the automatic tests (opening hours, admin login checks, data validation) |
+| `npm run dev:cf` | Run the site with the Cloudflare functions locally |
 | `npm run build` | Build the site for publishing (into `dist/`) |
 | `npm run format` | Tidy up code formatting |
 
@@ -117,6 +128,5 @@ Every push to GitHub runs the tests and a build automatically (see the **Actions
 npm run build      # creates the dist/ folder
 ```
 
-- **Netlify / Vercel:** connect the GitHub repo (or drag-and-drop `dist/`). Build command `npm run build`,
-  output folder `dist`. Redirect files for page refreshes are already included.
-- **Lovable:** push this folder to a GitHub repo, then connect it in Lovable's GitHub settings.
+- **Cloudflare Pages** (current host): see "Admin area (Cloudflare)" above. Every push to `main` redeploys.
+- Security headers and caching are set in `public/_headers`.

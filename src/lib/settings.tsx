@@ -22,22 +22,16 @@ export function mergeSettings(data: Partial<Settings> | null | undefined): Setti
   };
 }
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
-export const isSupabaseConfigured = !!(SUPABASE_URL && SUPABASE_KEY);
-
 /**
- * Public read of the live settings. Uses a plain HTTP request (no Supabase library),
- * so the public website stays small; the library is only loaded on /admin.
+ * Public read of the live settings from the Cloudflare function at /api/settings.
+ * If it isn't available (local dev without Cloudflare, or a preview), the site
+ * simply uses the defaults from src/config/site.ts.
  */
 export async function fetchSettings(): Promise<Settings> {
-  if (!isSupabaseConfigured) return defaultSettings;
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/site_settings?id=eq.1&select=data`, {
-    headers: { apikey: SUPABASE_KEY!, Authorization: `Bearer ${SUPABASE_KEY}` },
-  });
-  if (!res.ok) throw new Error(`Settings request failed (${res.status})`);
-  const rows = (await res.json()) as { data?: Partial<Settings> }[];
-  return mergeSettings(rows[0]?.data);
+  const res = await fetch(`${import.meta.env.BASE_URL}api/settings`, { headers: { accept: "application/json" } });
+  if (!res.ok || !(res.headers.get("content-type") || "").includes("application/json")) return defaultSettings;
+  const body = (await res.json()) as { data?: Partial<Settings> | null };
+  return mergeSettings(body.data);
 }
 
 type Ctx = { settings: Settings; reload: () => Promise<void> };

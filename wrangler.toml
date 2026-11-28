@@ -1,0 +1,16 @@
+# Cloudflare Pages configuration for the Londis Bath Lane website.
+# Cloudflare reads this file on every deploy (it replaces the dashboard settings for these values).
+name = "londis-bath-lane"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-11-01"
+
+# Storage for the live hours, seasonal hours and services (edited at /admin)
+[[kv_namespaces]]
+binding = "SETTINGS"
+id = "504a425d13fe4618a82d9952b65a2d87"
+
+# Admin login (Cloudflare Access). Not secret, but saves are blocked until all three are filled in.
+[vars]
+ACCESS_TEAM_DOMAIN = ""   # e.g. "friendsfood.cloudflareaccess.com" (Zero Trust › Settings › Team domain)
+ACCESS_AUD = ""           # Access application › "Application Audience (AUD) Tag"
+ADMIN_EMAILS = ""         # comma-separated, e.g. "owner@example.com"

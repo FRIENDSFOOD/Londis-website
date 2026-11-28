@@ -1,27 +1,33 @@
-import { FormEvent, ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import type { Session } from "@supabase/supabase-js";
-import { ArrowDown, ArrowUp, CalendarPlus, Copy, Loader2, LogOut, Plus, Save, Trash2 } from "lucide-react";
-import { supabase } from "@/lib/supabase";
-import { defaultSettings, fetchSettings, useSettings, type Settings } from "@/lib/settings";
+import { ArrowDown, ArrowUp, CalendarPlus, Copy, Loader2, LogOut, Plus, Save, ShieldCheck, Trash2 } from "lucide-react";
+import { mergeSettings, useSettings, type Settings } from "@/lib/settings";
+import { validateSettings } from "@/lib/validateSettings";
 import type { SeasonalHours, Service } from "@/config/site";
 import Logo from "@/components/Logo";
 import { SERVICE_ICONS } from "@/components/ServiceLogo";
 
-async function saveSettings(s: Settings) {
-  if (!supabase) throw new Error("Supabase is not connected");
-  const { error } = await supabase
-    .from("site_settings")
-    .upsert({ id: 1, data: s, updated_at: new Date().toISOString() });
-  if (error) throw error;
+/**
+ * Admin page. Login is handled by Cloudflare Access before this page even loads
+ * (email one-time code); the Cloudflare functions check that login again on every save.
+ */
+
+type Status = "checking" | "ok" | "signed-out" | "forbidden" | "not-configured" | "unavailable";
+
+const API = `${import.meta.env.BASE_URL}api/admin`;
+
+async function api<T>(path: string, init?: RequestInit): Promise<{ status: number; body: T | null }> {
+  const res = await fetch(`${API}${path}`, { credentials: "same-origin", ...init });
+  const isJson = (res.headers.get("content-type") || "").includes("application/json");
+  return { status: res.status, body: isJson ? ((await res.json()) as T) : null };
 }
 
 const todayISO = () => new Date().toISOString().slice(0, 10);
 
 export default function Admin() {
-  const [session, setSession] = useState<Session | null>(null);
-  const [checking, setChecking] = useState(true);
+  const [status, setStatus] = useState<Status>("checking");
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     const meta = document.createElement("meta");
@@ -33,13 +39,17 @@ export default function Admin() {
   }, []);
 
   useEffect(() => {
-    if (!supabase) return setChecking(false);
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setChecking(false);
-    });
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
-    return () => sub.subscription.unsubscribe();
+    api<{ email?: string; error?: string }>("/me")
+      .then(({ status: code, body }) => {
+        if (code === 200 && body?.email) {
+          setEmail(body.email);
+          setStatus("ok");
+        } else if (!body) setStatus("unavailable");
+        else if (code === 401) setStatus("signed-out");
+        else if (code === 403) setStatus("forbidden");
+        else setStatus("not-configured");
+      })
+      .catch(() => setStatus("unavailable"));
   }, []);
 
   return (
@@ -51,27 +61,21 @@ export default function Admin() {
             <Link to="/" className="text-sm font-medium text-ink/70 hover:text-ink">
               View website
             </Link>
-            {session && (
-              <button
-                onClick={() => supabase?.auth.signOut()}
+            {status === "ok" && (
+              <a
+                href="/cdn-cgi/access/logout"
                 className="btn border border-gray-300 bg-white px-4 py-2 hover:bg-gray-100"
               >
                 <LogOut className="h-4 w-4" /> Sign out
-              </button>
+              </a>
             )}
           </div>
         </div>
       </header>
       <main className="container max-w-4xl py-10">
-        {!supabase ? (
-          <NotConnected />
-        ) : checking ? (
-          <Spinner />
-        ) : session ? (
-          <Editor email={session.user.email ?? ""} />
-        ) : (
-          <Login />
-        )}
+        {status === "checking" && <Spinner />}
+        {status === "ok" && <Editor email={email} />}
+        {status !== "checking" && status !== "ok" && <Notice status={status} />}
       </main>
     </div>
   );
@@ -85,68 +89,43 @@ function Spinner() {
   );
 }
 
-function NotConnected() {
+function Notice({ status }: { status: Exclude<Status, "checking" | "ok"> }) {
+  const text: Record<typeof status, { title: string; body: ReactNode }> = {
+    "signed-out": {
+      title: "Please sign in",
+      body: <>Your sign-in has expired. Reload this page to sign in again with your email code.</>,
+    },
+    forbidden: {
+      title: "Not an admin account",
+      body: <>You're signed in, but this email isn't on the admin list. Ask the site owner to add it.</>,
+    },
+    "not-configured": {
+      title: "Admin login not set up yet",
+      body: (
+        <>
+          The admin needs Cloudflare Access. Follow <strong>"Admin area (Cloudflare)"</strong> in the project README.
+        </>
+      ),
+    },
+    unavailable: {
+      title: "Admin not available here",
+      body: (
+        <>
+          The admin works on the live site on Cloudflare (for example <code>londis.friendsfood.co.uk/admin</code>).
+          Locally, run <code>npm run dev:cf</code>. Until then the website uses the defaults in{" "}
+          <code>src/config/site.ts</code>.
+        </>
+      ),
+    },
+  };
+  const t = text[status];
   return (
     <div className="card space-y-3 p-8">
-      <h1 className="text-2xl">Admin not connected yet</h1>
-      <p className="text-ink/70">
-        The admin area needs Supabase. Follow <strong>"Admin area (Supabase)"</strong> in the project README: create a
-        free Supabase project, run <code>supabase/schema.sql</code>, then add <code>VITE_SUPABASE_URL</code> and{" "}
-        <code>VITE_SUPABASE_ANON_KEY</code> to your <code>.env</code> file (or your host's environment settings).
-      </p>
-      <p className="text-ink/70">
-        Until then the website uses the default hours and services from <code>src/config/site.ts</code>.
-      </p>
+      <h1 className="flex items-center gap-2 text-2xl">
+        <ShieldCheck className="h-6 w-6 text-brand" /> {t.title}
+      </h1>
+      <p className="text-ink/70">{t.body}</p>
     </div>
-  );
-}
-
-function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [busy, setBusy] = useState(false);
-  const submit = async (e: FormEvent) => {
-    e.preventDefault();
-    setBusy(true);
-    const { error } = await supabase!.auth.signInWithPassword({ email: email.trim(), password });
-    setBusy(false);
-    if (error) toast.error("Sign in failed — check your email and password.");
-  };
-  return (
-    <form onSubmit={submit} className="card mx-auto max-w-md space-y-5 p-8">
-      <h1 className="text-2xl">Staff sign in</h1>
-      <div>
-        <label className="label" htmlFor="a-email">
-          Email
-        </label>
-        <input
-          id="a-email"
-          type="email"
-          className="input"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          autoComplete="username"
-          required
-        />
-      </div>
-      <div>
-        <label className="label" htmlFor="a-pass">
-          Password
-        </label>
-        <input
-          id="a-pass"
-          type="password"
-          className="input"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          autoComplete="current-password"
-          required
-        />
-      </div>
-      <button className="btn-primary w-full" disabled={busy}>
-        {busy && <Loader2 className="h-4 w-4 animate-spin" />} Sign in
-      </button>
-    </form>
   );
 }
 
@@ -199,12 +178,18 @@ function Editor({ email }: { email: string }) {
   const [saving, setSaving] = useState(false);
   const [dirty, setDirty] = useState(false);
 
+  const [lastSaved, setLastSaved] = useState<{ at: string | null; by: string | null }>({ at: null, by: null });
+
   useEffect(() => {
-    fetchSettings()
-      .then(setS)
+    api<{ data: Partial<Settings> | null; updatedAt: string | null; updatedBy: string | null }>("/settings")
+      .then(({ status: code, body }) => {
+        if (code !== 200 || !body) throw new Error();
+        setS(mergeSettings(body.data));
+        setLastSaved({ at: body.updatedAt, by: body.updatedBy });
+      })
       .catch(() => {
         toast.error("Couldn't load saved settings — showing defaults.");
-        setS(defaultSettings);
+        setS(mergeSettings(null));
       });
   }, []);
 
@@ -218,15 +203,21 @@ function Editor({ email }: { email: string }) {
   const save = async () => {
     const err = validate(s);
     if (err) return toast.error(err);
+    const checked = validateSettings(s);
+    if (!checked.ok) return toast.error(checked.error);
     setSaving(true);
     try {
-      await saveSettings(s);
+      const { status: code, body } = await api<{ error?: string; updatedAt?: string; updatedBy?: string }>(
+        "/settings",
+        { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify(checked.value) },
+      );
+      if (code !== 200) throw new Error(body?.error || "Save failed");
       await reload();
       setDirty(false);
-      toast.success("Saved — the website is updated.");
+      setLastSaved({ at: body?.updatedAt ?? null, by: body?.updatedBy ?? null });
+      toast.success("Saved — the website updates within a minute.");
     } catch (e) {
-      console.error(e);
-      toast.error("Save failed. Is this email listed as an admin in Supabase?");
+      toast.error(e instanceof Error ? e.message : "Save failed");
     } finally {
       setSaving(false);
     }
@@ -254,7 +245,16 @@ function Editor({ email }: { email: string }) {
     <div className="space-y-8 pb-28">
       <div>
         <h1 className="text-3xl">Website settings</h1>
-        <p className="mt-1 text-sm text-ink/70">Signed in as {email}. Changes go live as soon as you press Save.</p>
+        <p className="mt-1 text-sm text-ink/70">
+          Signed in as {email}. Changes go live within a minute of pressing Save.
+          {lastSaved.at && (
+            <>
+              {" "}
+              Last saved {new Date(lastSaved.at).toLocaleString("en-GB")}
+              {lastSaved.by ? ` by ${lastSaved.by}` : ""}.
+            </>
+          )}
+        </p>
       </div>
 
       {/* WEEKLY HOURS */}

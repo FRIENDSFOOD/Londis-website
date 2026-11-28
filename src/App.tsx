@@ -9,7 +9,7 @@ import Privacy from "@/pages/Privacy";
 import NotFound from "@/pages/NotFound";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
-// Admin (and the Supabase login code) only downloads when someone opens /admin
+// The admin editor only downloads when someone opens /admin
 const Admin = lazy(() => import("@/pages/Admin"));
 
 function ScrollManager() {

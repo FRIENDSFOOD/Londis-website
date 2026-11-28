@@ -63,7 +63,7 @@ export const site = {
   email: "",
 
   /**
-   * DEFAULT hours & services. Once Supabase is connected, the live values are
+   * DEFAULT hours & services. Once the site is on Cloudflare, the live values are
    * edited at /admin and these are only used as a fallback.
    */
   /** Regular weekly opening hours (24h clock). */
