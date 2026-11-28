@@ -70,8 +70,8 @@ One-time setup:
    Build command `npm run build`; deploy command `npx wrangler deploy` (the default). `wrangler.toml`
    sets everything else (name `londis-website`, the `dist` assets, the `londis-settings` storage).
 2. **Custom domain:** in the Worker → *Settings → Domains & Routes → Add → Custom domain* →
-   `londis.friendsfood.co.uk`.
-3. **Zero Trust → Access → Applications → Add → Self-hosted**: domain `londis.friendsfood.co.uk`,
+   `friendsfood.co.uk`.
+3. **Zero Trust → Access → Applications → Add → Self-hosted**: domain `friendsfood.co.uk`,
    paths `/admin` and `/api/admin`; policy *Allow* → *Emails* → the admin email(s); login method
    *One-time PIN*. Copy the **Application Audience (AUD) Tag**.
 4. Put the AUD tag, your team domain (Zero Trust → Settings, e.g. `friendsfood.cloudflareaccess.com`) and the

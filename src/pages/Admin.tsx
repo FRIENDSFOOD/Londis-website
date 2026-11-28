@@ -111,7 +111,7 @@ function Notice({ status }: { status: Exclude<Status, "checking" | "ok"> }) {
       title: "Admin not available here",
       body: (
         <>
-          The admin works on the live site on Cloudflare (for example <code>londis.friendsfood.co.uk/admin</code>).
+          The admin works on the live site on Cloudflare (for example <code>friendsfood.co.uk/admin</code>).
           Locally, run <code>npm run dev:cf</code>. Until then the website uses the defaults in{" "}
           <code>src/config/site.ts</code>.
         </>

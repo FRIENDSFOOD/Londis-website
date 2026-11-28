@@ -46,7 +46,7 @@ const env = (over: Record<string, unknown> = {}) => {
   } as never;
 };
 const req = (jwt?: string, init: RequestInit = {}) =>
-  new Request("https://londis.friendsfood.co.uk/api/admin/settings", {
+  new Request("https://friendsfood.co.uk/api/admin/settings", {
     ...init,
     headers: { ...(jwt ? { "cf-access-jwt-assertion": jwt } : {}), ...(init.headers as Record<string, string>) },
   });

@@ -19,7 +19,7 @@ id = "504a425d13fe4618a82d9952b65a2d87"
 
 # Admin login (Cloudflare Access). Not secret, but saves are blocked until all three are filled in.
 [vars]
-ACCESS_TEAM_DOMAIN = ""   # e.g. "friendsfood.cloudflareaccess.com" (Zero Trust › Settings › Team domain)
+ACCESS_TEAM_DOMAIN = "friendsfood.cloudflareaccess.com"
 ACCESS_AUD = ""           # Access application › "Application Audience (AUD) Tag"
 ADMIN_EMAILS = ""         # comma-separated, e.g. "owner@example.com"
 
